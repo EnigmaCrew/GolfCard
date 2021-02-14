@@ -29,7 +29,7 @@ public class CardPanel extends JPanel {
 		
 		setLocation(x, y);
 		setSize(golf.getWidth()/12, golf.gamePanel.getHeight()/5);
-		setOpaque(true);
+		setOpaque(false);
 		setLayout(null);
 		setVisible(true);
 		
@@ -43,11 +43,15 @@ public class CardPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(card.visible) {
+		if(card != null && card.visible) {
 			g.drawImage(Utils.resizeImage(Const.getCardImage(card.id + card.color.toString()), getWidth(), getHeight()).getImage(), 0, 0, null);
 		}
-		else
-			g.drawImage(Utils.resizeImage(Const.IMAGE_CardBack, getWidth(), getHeight()).getImage(), 0, 0, null);
+		else {
+			if(index == -1 && game.cardTrash.size() == 0)
+				g.drawImage(Utils.resizeImage(Const.IMAGE_EmptyTrash, getWidth(), getHeight()).getImage(), 0, 0, null);
+			else
+				g.drawImage(Utils.resizeImage(Const.IMAGE_CardBack, getWidth(), getHeight()).getImage(), 0, 0, null);
+		}
 	}
 	
 	public static void redrawCard(Golf golf, Game game) {
@@ -57,22 +61,37 @@ public class CardPanel extends JPanel {
 				golf.remove(c);
 			}
 		}
+		
+		// Player 1
 		for(int i = 0; i < golf.sixOrNine; i++) {
-			game.p1.get(i).visible = true;
 			CardPanel c = new CardPanel(golf, game, game.p1.get(i), true, i, (i%3) * golf.gamePanel.getWidth()/10 + golf.gamePanel.getWidth()/10, 
 					golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(c);
 		}
+		
+		// Player 2
 		for(int i = 0; i < golf.sixOrNine; i++) {
-			game.p1.get(i).visible = true;
 			CardPanel c = new CardPanel(golf, game, game.p2.get(i), false, i, golf.gamePanel.getWidth()/2 + (i%3) * golf.gamePanel.getWidth()/10 + 
 					golf.gamePanel.getWidth()/10, golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(c);
 		}
-		/*CardPanel c = new CardPanel(golf, game, game.cardTrash.get(game.cardTrash.size()-1), -1, 0, 0);
+
+		// Deck
+		CardPanel c = new CardPanel(golf, game, game.cardStack.get(game.cardStack.size()-1), false, -2, golf.gamePanel.getWidth()/2 - 
+				golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/100);
 		golf.gamePanel.add(c);
-		c = new CardPanel(golf, game, game.cardStack.get(game.cardStack.size()-1), -2, 0, 0);
-		golf.gamePanel.add(c);*/
+		
+		// Trash
+		if(game.cardTrash.size() != 0) {
+			c = new CardPanel(golf, game, game.cardTrash.get(game.cardTrash.size()-1), false, -1, golf.gamePanel.getWidth()/2 - 
+					golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/4);
+			golf.gamePanel.add(c);
+		}
+		else {
+			c = new CardPanel(golf, game, null, false, -1, golf.gamePanel.getWidth()/2 - 
+					golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/4);
+			golf.gamePanel.add(c);
+		}
 		
 	}
 	
@@ -84,10 +103,71 @@ public class CardPanel extends JPanel {
 	
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			if((!card.visible) && game.p1Turn == p1) {
-				System.out.println("coucou");
-				game.step(new GameAction(Kind.TURN, index));
-				redrawCard(golf, game);
+			if(card == null) {
+				if(golf.drawTrashTurn == 1) {
+					// Throw the picked card
+					game.step(new GameAction(Kind.DRAW, -1));
+					// Reset the action memory
+					golf.drawTrashTurn = 3;
+					redrawCard(golf, game);
+				}
+			}
+			else {
+				if((!card.visible) && index == -2) {
+					// Pick a card
+					if(game.cardStack.size() != 0) {
+						game.cardStack.get(game.cardStack.size()-1).visible = true;
+						golf.drawTrashTurn = 1;
+						redrawCard(golf, game);
+					}
+				}
+				else if((!card.visible) && game.p1Turn == p1) {
+					if(golf.drawTrashTurn == 3) {
+						//Turn a card
+						game.step(new GameAction(Kind.TURN, index));						
+					}
+					else {
+						if(golf.drawTrashTurn == 2)
+							// Switch the card from the trash
+							game.step(new GameAction(Kind.TRASH, index));
+						else
+							// Switch the card from the deck
+							game.step(new GameAction(Kind.DRAW, index));
+					}
+					// Reset the action memory
+					golf.drawTrashTurn = 3;
+					redrawCard(golf, game);
+				}
+				else if(card.visible && index == -1) {
+					if(golf.drawTrashTurn == 3) {
+						// Pick a card
+						if(game.cardStack.size() != 0) {
+							game.cardStack.get(game.cardStack.size()-1).visible = true;
+							golf.drawTrashTurn = 1;
+							redrawCard(golf, game);
+						}
+					}
+					else {
+						// Throw the picked card
+						game.step(new GameAction(Kind.DRAW, -1));
+						// Reset the action memory
+						golf.drawTrashTurn = 3;
+						redrawCard(golf, game);
+					}
+				}
+				else if(card.visible && game.p1Turn == p1) {
+					if(golf.drawTrashTurn != 3) {
+						if(golf.drawTrashTurn == 2)
+							// Switch the card from the trash
+							game.step(new GameAction(Kind.TRASH, index));
+						else
+							// Switch the card from the deck
+							game.step(new GameAction(Kind.DRAW, index));
+						// Reset the action memory
+						golf.drawTrashTurn = 3;
+						redrawCard(golf, game);
+					}
+				}
 			}
 		}
 

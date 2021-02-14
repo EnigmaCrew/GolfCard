@@ -29,6 +29,8 @@ public class Golf extends JFrame {
 	public int sixOrNine;
 	private Game game;
 	
+	public int drawTrashTurn;
+	
 	//**************************************************************************
 	// Components and settings
 	
@@ -57,6 +59,8 @@ public class Golf extends JFrame {
 
 		golf = this;
 		sixOrNine = 6;
+		
+		drawTrashTurn = 3; // Turn
 		
 		setTitle("Golf");
 		setLayout(null);
@@ -114,7 +118,6 @@ public class Golf extends JFrame {
 		});
 
 		game = new Game(6, true);
-		game.step(new GameAction(GameAction.Kind.DRAW, 2));
 		updateComponents();
 		
 		//**************************************************************************
