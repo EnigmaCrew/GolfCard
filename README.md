@@ -1,2 +1,2 @@
 # GolfCard
-A golf simulator
+The card game Golf
