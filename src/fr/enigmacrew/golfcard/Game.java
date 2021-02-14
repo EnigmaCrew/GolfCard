@@ -59,7 +59,7 @@ public class Game {
             case TRASH:
             {
                 // Pop and replace the target card (put the old card in the trash)
-                GameCard card = cardTrash.remove(cardStack.size() - 1);
+                GameCard card = cardTrash.remove(cardTrash.size() - 1);
                 card.visible = true;
                 cardTrash.add(player.get(action.targetCard));
                 player.set(action.targetCard, card);

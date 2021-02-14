@@ -113,7 +113,7 @@ public class CardPanel extends JPanel {
 				}
 			}
 			else {
-				if((!card.visible) && index == -2) {
+				if(index == -2) {
 					// Pick a card
 					if(game.cardStack.size() != 0) {
 						game.cardStack.get(game.cardStack.size()-1).visible = true;
@@ -121,7 +121,7 @@ public class CardPanel extends JPanel {
 						redrawCard(golf, game);
 					}
 				}
-				else if((!card.visible) && game.p1Turn == p1) {
+				else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
 					if(golf.drawTrashTurn == 3) {
 						//Turn a card
 						game.step(new GameAction(Kind.TURN, index));						
@@ -138,16 +138,12 @@ public class CardPanel extends JPanel {
 					golf.drawTrashTurn = 3;
 					redrawCard(golf, game);
 				}
-				else if(card.visible && index == -1) {
+				else if(index == -1) {
 					if(golf.drawTrashTurn == 3) {
 						// Pick a card
-						if(game.cardStack.size() != 0) {
-							game.cardStack.get(game.cardStack.size()-1).visible = true;
-							golf.drawTrashTurn = 1;
-							redrawCard(golf, game);
-						}
+						golf.drawTrashTurn = 2;
 					}
-					else {
+					else if(golf.drawTrashTurn != 2){
 						// Throw the picked card
 						game.step(new GameAction(Kind.DRAW, -1));
 						// Reset the action memory
@@ -155,7 +151,7 @@ public class CardPanel extends JPanel {
 						redrawCard(golf, game);
 					}
 				}
-				else if(card.visible && game.p1Turn == p1) {
+				else if(card.visible && game.p1Turn == p1 && index >= 0) {
 					if(golf.drawTrashTurn != 3) {
 						if(golf.drawTrashTurn == 2)
 							// Switch the card from the trash
