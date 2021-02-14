@@ -16,8 +16,6 @@ public class Main {
 		
 		// Start the main frame
 		Golf golf = new Golf();
-		golf.setVisible(true);
-		
+		golf.setVisible(true);	
 	}
-	
 }
