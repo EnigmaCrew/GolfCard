@@ -2,6 +2,7 @@ package fr.enigmacrew.golfcard;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class Game {
     // TODO : Useful ?
@@ -20,7 +21,6 @@ public class Game {
     public ArrayList<GameCard> p2 = new ArrayList<>();
 
     private int nCards;
-    private int stepId;
     private boolean p1Turn;
     private Phase phase;
 
@@ -85,20 +85,28 @@ public class Game {
         if (end)
             phase = Phase.END;
 
-        ++stepId;
         p1Turn = !p1Turn;
 
         return phase == Phase.END;
     }
 
-    private void reset() {
+    public Integer[] getScores() {
+        /*
+         * Fetch players' scores
+         */
+        return new Integer[] {
+            getScore(p1),
+            getScore(p2),
+        };
+    }
+
+    public void reset() {
         /*
          * Reset the game state.
          * Fill randomly cardStack, cardTrash, p1, p2.
          */
 
         phase = Phase.START;
-        stepId = 0;
 
         String[] ids = {
             "1",
@@ -158,5 +166,21 @@ public class Game {
         if (!cardTrash.isEmpty())
             System.out.print(" Trash : " + cardTrash.get(cardTrash.size() - 1).id);
         System.out.println("\n-----");
+    }
+
+    private int getScore(ArrayList<GameCard> cards) {
+        int score = 0;
+        HashMap<String, Integer> ids = new HashMap<>();
+        for (GameCard card : cards) {
+            ids.put(card.id, ids.get(card.id) + 1);
+        }
+
+        for (GameCard card : cards) {
+            // There is only one card
+            if (ids.get(card.id) == 1)
+                score += card.value;
+        }
+
+        return score;
     }
 }
