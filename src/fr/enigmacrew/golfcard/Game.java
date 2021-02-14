@@ -23,6 +23,7 @@ public class Game {
     private int nCards;
     public boolean p1Turn;
     private Phase phase;
+    private int turnId;
 
     public Game(int nCards, boolean p1Turn) {
         this.nCards = nCards;
@@ -85,7 +86,17 @@ public class Game {
         if (end)
             phase = Phase.END;
 
-        p1Turn = !p1Turn;
+        if (phase == Phase.START) {
+            if (turnId >= nCards / 3 * 2) {
+                phase = Phase.MAIN;
+            }
+            if (turnId == nCards / 3 - 1) {
+                p1Turn = !p1Turn;
+            }
+        } else
+            p1Turn = !p1Turn;
+
+        ++turnId;
 
         return phase == Phase.END;
     }
@@ -106,6 +117,7 @@ public class Game {
          * Fill randomly cardStack, cardTrash, p1, p2.
          */
 
+        turnId = 0;
         phase = Phase.START;
 
         String[] ids = {
