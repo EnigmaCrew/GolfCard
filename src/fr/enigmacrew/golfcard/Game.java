@@ -4,25 +4,101 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Game {
+    // TODO : Useful ?
+    public enum Phase {
+        // Players have to turn cards
+        START,
+        // Main gameplay
+        MAIN,
+        // The game has ended
+        END
+    }
+
     public ArrayList<GameCard> cardStack = new ArrayList<>();
     public ArrayList<GameCard> cardTrash = new ArrayList<>();
     public ArrayList<GameCard> p1 = new ArrayList<>();
     public ArrayList<GameCard> p2 = new ArrayList<>();
 
     private int nCards;
+    private int stepId;
     private boolean p1Turn;
+    private Phase phase;
 
     public Game(int nCards, boolean p1Turn) {
         this.nCards = nCards;
         this.p1Turn = p1Turn;
 
-        generateCards();
+        reset();
     }
 
-    private void generateCards() {
+    // TODO : Can't play with trash if empty
+    public boolean step(GameAction action) {
         /*
-         * Fill randomly cardStack, cardTrash, p1, p2
+         * Play a game step (turn).
+         * Return whether the game is ended.
          */
+        ArrayList<GameCard> player = p1Turn ? p1 : p2;
+
+        switch (action.kind) {
+            case DRAW:
+            {
+                // Pop
+                GameCard card = cardStack.remove(cardStack.size() - 1);
+
+                if (action.targetCard == -1) {
+                    // Trash
+                    cardTrash.add(card);
+                } else {
+                    // Replace the target card (put the old card in the trash)
+                    cardTrash.add(player.get(action.targetCard));
+                    player.set(action.targetCard, card);
+                }
+
+                break;
+            }
+            case TRASH:
+            {
+                // Pop and replace the target card (put the old card in the trash)
+                GameCard card = cardTrash.remove(cardStack.size() - 1);
+                cardTrash.add(player.get(action.targetCard));
+                player.set(action.targetCard, card);
+
+                break;
+            }
+            case TURN:
+            {
+                player.get(action.targetCard).visible = true;
+
+                break;
+            }
+        }
+
+        // Check end
+        boolean end = true;
+        for (GameCard card : player) {
+            if (!card.visible) {
+                end = false;
+                break;
+            }
+        }
+
+        if (end)
+            phase = Phase.END;
+
+        ++stepId;
+        p1Turn = !p1Turn;
+
+        return phase == Phase.END;
+    }
+
+    private void reset() {
+        /*
+         * Reset the game state.
+         * Fill randomly cardStack, cardTrash, p1, p2.
+         */
+
+        phase = Phase.START;
+        stepId = 0;
 
         String[] ids = {
             "1",
@@ -63,5 +139,24 @@ public class Game {
 
         cardStack = new ArrayList<GameCard>(
                 cardStack.subList(0, cardStack.size() - nCards * 2));
+    }
+
+    // TODO : Remove
+    public void debug() {
+        System.out.println("-----");
+        System.out.print("P1 :");
+        for (GameCard card : p1) {
+            System.out.print(" " + card.id);
+        }
+        System.out.print("\nP2 :");
+        for (GameCard card : p2) {
+            System.out.print(" " + card.id);
+        }
+        System.out.println();
+        if (!cardStack.isEmpty())
+            System.out.print("Stack : " + cardStack.get(cardStack.size() - 1).id);
+        if (!cardTrash.isEmpty())
+            System.out.print(" Trash : " + cardTrash.get(cardTrash.size() - 1).id);
+        System.out.println("\n-----");
     }
 }
