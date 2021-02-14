@@ -19,10 +19,10 @@ public class Game {
     public ArrayList<GameCard> p1 = new ArrayList<>();
     public ArrayList<GameCard> p2 = new ArrayList<>();
 
-    private int nCards;
     public boolean p1Turn;
+    public int turnId;
+    private int nCards;
     private Phase phase;
-    private int turnId;
 
     public Game(int nCards, boolean p1Turn) {
         this.nCards = nCards;
