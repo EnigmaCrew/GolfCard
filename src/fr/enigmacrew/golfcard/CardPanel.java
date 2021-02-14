@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import fr.enigmacrew.golfcard.Game.Phase;
 import fr.enigmacrew.golfcard.GameAction.Kind;
 import fr.enigmacrew.golfcard.utils.Utils;
 
@@ -103,47 +104,9 @@ public class CardPanel extends JPanel {
 	
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			if(card == null) {
-				if(golf.drawTrashTurn == 1) {
-					// Throw the picked card
-					game.step(new GameAction(Kind.DRAW, -1));
-					// Reset the action memory
-					golf.drawTrashTurn = 3;
-					redrawCard(golf, game);
-				}
-			}
-			else {
-				if(index == -2) {
-					// Pick a card
-					if(game.cardStack.size() != 0) {
-						game.cardStack.get(game.cardStack.size()-1).visible = true;
-						golf.drawTrashTurn = 1;
-						redrawCard(golf, game);
-					}
-				}
-				else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
-					if(golf.drawTrashTurn == 3) {
-						//Turn a card
-						game.step(new GameAction(Kind.TURN, index));						
-					}
-					else {
-						if(golf.drawTrashTurn == 2)
-							// Switch the card from the trash
-							game.step(new GameAction(Kind.TRASH, index));
-						else
-							// Switch the card from the deck
-							game.step(new GameAction(Kind.DRAW, index));
-					}
-					// Reset the action memory
-					golf.drawTrashTurn = 3;
-					redrawCard(golf, game);
-				}
-				else if(index == -1) {
-					if(golf.drawTrashTurn == 3) {
-						// Pick a card
-						golf.drawTrashTurn = 2;
-					}
-					else if(golf.drawTrashTurn != 2){
+			if(game.phase != Phase.END) {
+				if(card == null) {
+					if(golf.drawTrashTurn == 1) {
 						// Throw the picked card
 						game.step(new GameAction(Kind.DRAW, -1));
 						// Reset the action memory
@@ -151,18 +114,62 @@ public class CardPanel extends JPanel {
 						redrawCard(golf, game);
 					}
 				}
-				else if(card.visible && game.p1Turn == p1 && index >= 0) {
-					if(golf.drawTrashTurn != 3) {
-						if(golf.drawTrashTurn == 2)
-							// Switch the card from the trash
-							game.step(new GameAction(Kind.TRASH, index));
-						else
-							// Switch the card from the deck
-							game.step(new GameAction(Kind.DRAW, index));
+				else {
+					if(index == -2) {
+						// Pick a card if the two first turns are over
+						if(game.phase != Phase.START && game.cardStack.size() != 0) {
+							game.cardStack.get(game.cardStack.size()-1).visible = true;
+							golf.drawTrashTurn = 1;
+							redrawCard(golf, game);
+						}
+					}
+					else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
+						if(golf.drawTrashTurn == 3) {
+							//Turn a card
+							game.step(new GameAction(Kind.TURN, index));						
+						}
+						else {
+							if(golf.drawTrashTurn == 2)
+								// Switch the card from the trash
+								game.step(new GameAction(Kind.TRASH, index));
+							else
+								// Switch the card from the deck
+								game.step(new GameAction(Kind.DRAW, index));
+						}
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
 						redrawCard(golf, game);
 					}
+					else if(index == -1) {
+						if(golf.drawTrashTurn == 3) {
+							// Pick a card
+							golf.drawTrashTurn = 2;
+						}
+						else if(golf.drawTrashTurn != 2){
+							// Throw the picked card
+							game.step(new GameAction(Kind.DRAW, -1));
+							// Reset the action memory
+							golf.drawTrashTurn = 3;
+							redrawCard(golf, game);
+						}
+					}
+					else if(card.visible && game.p1Turn == p1 && index >= 0) {
+						if(golf.drawTrashTurn != 3) {
+							if(golf.drawTrashTurn == 2)
+								// Switch the card from the trash
+								game.step(new GameAction(Kind.TRASH, index));
+							else
+								// Switch the card from the deck
+								game.step(new GameAction(Kind.DRAW, index));
+							// Reset the action memory
+							golf.drawTrashTurn = 3;
+							redrawCard(golf, game);
+						}
+					}
+				}
+				if(game.phase == Phase.END) {
+					// TODO Print the winner
+					System.out.println("End of the game !");
 				}
 			}
 		}

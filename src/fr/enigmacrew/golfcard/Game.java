@@ -23,7 +23,7 @@ public class Game {
     public boolean p1Turn;
     public int turnId;
     private int nCards;
-    private Phase phase;
+    public Phase phase;
 
     public Game(int nCards, boolean p1Turn) {
         this.nCards = nCards;
@@ -95,10 +95,10 @@ public class Game {
         if (cardStack.size() == 0)
             refill();
 
-        if (end)
+        if (end && phase != Phase.LASTTURN)
             phase = Phase.LASTTURN;
 
-        if (phase == Phase.LASTTURN)
+        else if (phase == Phase.LASTTURN)
             phase = Phase.END;
 
         if (phase == Phase.START) {
