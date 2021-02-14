@@ -10,6 +10,9 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import fr.enigmacrew.golfcard.audio.musics.AudioPaths;
 import fr.enigmacrew.golfcard.audio.musics.Music;
@@ -27,11 +30,15 @@ public class Golf extends JFrame {
 	// Components and settings
 	
 	private JPanel menuPanel = new JPanel();
+	private GamePanel gamePanel = new GamePanel();
+	private JPanel configPanel = new JPanel();
+	
+	private JSlider volumeSlider = new JSlider();
 	
 	private final int DEFAULT_WIDTH = 1000;
 	private final int DEFAULT_HEIGHT = 600;
-	private final int MIN_WIDTH = 500;
-	private final int MIN_HEIGHT = 300;
+	private final int MIN_WIDTH = 650;
+	private final int MIN_HEIGHT = 450;
 	
 	private Timer timer;
 	
@@ -67,14 +74,45 @@ public class Golf extends JFrame {
 		//**************************************************************************
 		// Creating components
 		
+		//**********************
+		// Panels
+		
 		menuPanel.setLayout(null);
 		menuPanel.setLocation(0, 0);
+		
+		gamePanel.setLayout(null);
+		gamePanel.setLocation(0, 0);
+		menuPanel.setVisible(false);
+		
+		configPanel.setLayout(null);
+		configPanel.setLocation(0, 0);
+		
+		//**********************
+		// Config components
+		
+		volumeSlider.setOpaque(false);
+		volumeSlider.setMinimum(0);
+		volumeSlider.setMaximum(75);
+		volumeSlider.setValue((int) (Config.VOLUME * 75));
+		volumeSlider.setMajorTickSpacing(1);
+		volumeSlider.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				Config.VOLUME = (float) volumeSlider.getValue() / 75;
+				volumeSlider.setValue(volumeSlider.getValue());
+				Music.refreshVolume();
+			}
+		});
 		
 		updateComponents();
 		
 		//**************************************************************************
 		// Adding components
 		
+		configPanel.add(volumeSlider);
+		
+		menuPanel.add(configPanel);
+		add(gamePanel);
 		add(menuPanel);
 		
 		//**************************************************************************
@@ -120,7 +158,18 @@ public class Golf extends JFrame {
 		 * Update the components size and font when the window is resized
 		 */
 		
-		menuPanel.setSize(getWidth(), getHeight());
+		//**********************
+		// Panels
 		
+		menuPanel.setSize(getWidth(), getHeight());
+		gamePanel.setSize(getWidth(), getHeight());
+		gamePanel.repaint();
+		configPanel.setSize(getWidth(), getHeight()/30);
+		
+		//**********************
+		// Config components
+		
+		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
+		volumeSlider.setSize(getWidth()/10, getHeight()/50);
 	}
 }
