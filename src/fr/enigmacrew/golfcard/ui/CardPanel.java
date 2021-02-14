@@ -176,6 +176,9 @@ public class CardPanel extends JPanel {
 						gc.visible = true;
 					for(GameCard gc : game.p2)
 						gc.visible = true;
+					golf.gamePanel.winPanel.game = game;
+					golf.gamePanel.winPanel.setValues();
+					golf.gamePanel.winPanel.setVisible(true);
 				}
 			}
 		}

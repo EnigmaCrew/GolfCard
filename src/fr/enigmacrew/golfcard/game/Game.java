@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import fr.enigmacrew.golfcard.game.GameCard.Color;
-
 public class Game {
     public enum Phase {
         // Players have to turn cards

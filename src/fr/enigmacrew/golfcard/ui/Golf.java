@@ -16,9 +16,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.enigmacrew.golfcard.Config;
+import fr.enigmacrew.golfcard.Const;
 import fr.enigmacrew.golfcard.audio.musics.AudioPaths;
 import fr.enigmacrew.golfcard.audio.musics.Music;
 import fr.enigmacrew.golfcard.game.Game;
+import fr.enigmacrew.golfcard.utils.Utils;
 
 public class Golf extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -37,14 +39,14 @@ public class Golf extends JFrame {
 	// Components and settings
 	
 	private JPanel menuPanel = new JPanel();
-	public GamePanel gamePanel = new GamePanel();
+	public GamePanel gamePanel;
 	private JPanel configPanel = new JPanel();
-	private Color configColor = new Color(38, 127, 0);
+	public static Color configColor = new Color(38, 127, 0);
 	
 	private JSlider volumeSlider = new JSlider();
 	
-	private final int DEFAULT_WIDTH = 1000;
-	private final int DEFAULT_HEIGHT = 600;
+	public static final int DEFAULT_WIDTH = 1000;
+	public static final int DEFAULT_HEIGHT = 600;
 	private final int MIN_WIDTH = 650;
 	private final int MIN_HEIGHT = 450;
 	
@@ -91,7 +93,8 @@ public class Golf extends JFrame {
 		
 		menuPanel.setLayout(null);
 		menuPanel.setLocation(0, getHeight()/30);
-		
+
+		gamePanel = new GamePanel(golf);
 		gamePanel.setLayout(null);
 		gamePanel.setLocation(0, getHeight()/30);
 		menuPanel.setVisible(false);
@@ -169,7 +172,7 @@ public class Golf extends JFrame {
 	//**************************************************************************
 	// Functions
 	
-	private void updateComponents() {
+	public void updateComponents() {
 		
 		/*
 		 * Update the components size and font when the window is resized
@@ -184,6 +187,37 @@ public class Golf extends JFrame {
 		gamePanel.setSize(getWidth(), getHeight() - getHeight()/30);
 		gamePanel.repaint();
 		configPanel.setSize(getWidth(), getHeight()/30);
+		
+		//**********************
+		// Win Panel components
+		
+		gamePanel.winPanel.setLocation(getWidth()/2 - (getWidth() - getWidth()/3)/4, getHeight()/2 - 
+				(getHeight() - getHeight()/4)/2 + getHeight()/16);
+		gamePanel.winPanel.setSize((getWidth()/3), getHeight()/2);
+		
+		gamePanel.winPanel.closeButton.setLocation(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/20, 0);
+		gamePanel.winPanel.closeButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
+		gamePanel.winPanel.closeButton.setIcon(Utils.resizeImage(Const.IMAGE_closeButton, 
+				gamePanel.winPanel.closeButton.getWidth(), gamePanel.winPanel.closeButton.getHeight()));
+		
+		gamePanel.winPanel.reduceButton.setLocation(gamePanel.winPanel.getWidth() - (gamePanel.winPanel.getWidth()/20)*2, 0);
+		gamePanel.winPanel.reduceButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
+		gamePanel.winPanel.reduceButton.setIcon(Utils.resizeImage(Const.IMAGE_reduceButton, 
+				gamePanel.winPanel.reduceButton.getWidth(), gamePanel.winPanel.reduceButton.getHeight()));
+		
+		gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
+		gamePanel.winPanel.winnerLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
+				gamePanel.winPanel.getHeight()/10);
+		gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+		
+		gamePanel.winPanel.scoreLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/5);
+		gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
+				gamePanel.winPanel.getHeight()/10);
+		gamePanel.winPanel.scoreLabel.setFont(Utils.getUpdatedFont(getWidth()));
+		
+		gamePanel.winPanel.replayButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/8);
+		gamePanel.winPanel.replayButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
+		gamePanel.winPanel.replayButton.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
 		
 		//**********************
 		// Config components
