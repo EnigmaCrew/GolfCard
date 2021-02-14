@@ -43,6 +43,7 @@ public class Game {
             {
                 // Pop
                 GameCard card = cardStack.remove(cardStack.size() - 1);
+                card.visible = true;
 
                 if (action.targetCard == -1) {
                     // Trash
@@ -59,6 +60,7 @@ public class Game {
             {
                 // Pop and replace the target card (put the old card in the trash)
                 GameCard card = cardTrash.remove(cardStack.size() - 1);
+                card.visible = true;
                 cardTrash.add(player.get(action.targetCard));
                 player.set(action.targetCard, card);
 
