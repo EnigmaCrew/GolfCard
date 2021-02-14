@@ -49,8 +49,11 @@ public class Game {
                     // Trash
                     cardTrash.add(card);
                 } else {
+                    GameCard toTrash = player.get(action.targetCard);
+                    toTrash.visible = true;
+
                     // Replace the target card (put the old card in the trash)
-                    cardTrash.add(player.get(action.targetCard));
+                    cardTrash.add(toTrash);
                     player.set(action.targetCard, card);
                 }
 
@@ -60,8 +63,12 @@ public class Game {
             {
                 // Pop and replace the target card (put the old card in the trash)
                 GameCard card = cardTrash.remove(cardTrash.size() - 1);
+                GameCard toTrash = player.get(action.targetCard);
+
                 card.visible = true;
-                cardTrash.add(player.get(action.targetCard));
+                toTrash.visible = true;
+
+                cardTrash.add(toTrash);
                 player.set(action.targetCard, card);
 
                 break;
@@ -91,10 +98,13 @@ public class Game {
             phase = Phase.END;
 
         if (phase == Phase.START) {
-            if (turnId >= nCards / 3 * 2) {
+            // All initial cards turned
+            if (turnId >= nCards / 3 * 2 - 1) {
                 phase = Phase.MAIN;
             }
-            if (turnId == nCards / 3 - 1) {
+
+            // Switch player
+            if (turnId % (nCards / 3) == nCards / 3 - 1) {
                 p1Turn = !p1Turn;
             }
         } else
