@@ -171,8 +171,12 @@ public class Game {
     private int getScore(ArrayList<GameCard> cards) {
         int score = 0;
         HashMap<String, Integer> ids = new HashMap<>();
+
         for (GameCard card : cards) {
-            ids.put(card.id, ids.get(card.id) + 1);
+            if (ids.containsKey(card.id))
+                ids.put(card.id, ids.get(card.id) + 1);
+            else
+                ids.put(card.id, 1);
         }
 
         for (GameCard card : cards) {

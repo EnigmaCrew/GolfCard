@@ -22,6 +22,10 @@ public class Main {
 		game.step(new GameAction(GameAction.Kind.DRAW, -1));
 		game.debug();
 
+		Integer[] scores = game.getScores();
+		System.out.println("Score P1 : " + scores[0].toString());
+		System.out.println("Score P2 : " + scores[1].toString());
+
 		// Start the main frame
 		// Golf golf = new Golf();
 		// golf.setVisible(true);
