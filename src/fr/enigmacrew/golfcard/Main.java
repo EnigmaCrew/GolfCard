@@ -13,7 +13,7 @@ public class Main {
 		/*
 		 * Start the golf game
 		 */
-
+		
 		// Start the main frame
 		Golf golf = new Golf();
 		golf.setVisible(true);
