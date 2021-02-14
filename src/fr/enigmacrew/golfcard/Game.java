@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class Game {
-    // TODO : Useful ?
     public enum Phase {
         // Players have to turn cards
         START,
@@ -32,7 +31,6 @@ public class Game {
         reset();
     }
 
-    // TODO : Can't play with trash if empty
     public boolean step(GameAction action) {
         /*
          * Play a game step (turn).
@@ -82,6 +80,10 @@ public class Game {
                 break;
             }
         }
+
+        // Check deck empty
+        if (cardStack.size() == 0)
+            refill();
 
         if (end)
             phase = Phase.END;
@@ -159,6 +161,20 @@ public class Game {
 
         cardStack = new ArrayList<GameCard>(
                 cardStack.subList(0, cardStack.size() - nCards * 2));
+    }
+
+    public void refill() {
+        /*
+         * Fill the deck when there is no card in it anymore
+         */
+
+        ArrayList<GameCard> tmp = cardStack;
+        cardStack = cardTrash;
+        cardTrash = tmp;
+
+        Collections.shuffle(cardStack);
+        for (GameCard card : cardStack)
+            card.visible = false;
     }
 
     // TODO : Remove
