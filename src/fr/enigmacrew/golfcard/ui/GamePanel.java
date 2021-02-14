@@ -1,9 +1,10 @@
-package fr.enigmacrew.golfcard;
+package fr.enigmacrew.golfcard.ui;
 
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import fr.enigmacrew.golfcard.Const;
 import fr.enigmacrew.golfcard.utils.Utils;
 
 public class GamePanel extends JPanel {

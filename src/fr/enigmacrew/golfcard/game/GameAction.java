@@ -1,4 +1,4 @@
-package fr.enigmacrew.golfcard;
+package fr.enigmacrew.golfcard.game;
 
 public class GameAction {
     public enum Kind {

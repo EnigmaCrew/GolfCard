@@ -1,4 +1,4 @@
-package fr.enigmacrew.golfcard;
+package fr.enigmacrew.golfcard.ui;
 
 import java.awt.Component;
 import java.awt.Graphics;
@@ -7,8 +7,12 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
-import fr.enigmacrew.golfcard.Game.Phase;
-import fr.enigmacrew.golfcard.GameAction.Kind;
+import fr.enigmacrew.golfcard.Const;
+import fr.enigmacrew.golfcard.game.Game;
+import fr.enigmacrew.golfcard.game.GameAction;
+import fr.enigmacrew.golfcard.game.GameCard;
+import fr.enigmacrew.golfcard.game.Game.Phase;
+import fr.enigmacrew.golfcard.game.GameAction.Kind;
 import fr.enigmacrew.golfcard.utils.Utils;
 
 public class CardPanel extends JPanel {
@@ -73,7 +77,7 @@ public class CardPanel extends JPanel {
 		// Player 2
 		for(int i = 0; i < golf.sixOrNine; i++) {
 			CardPanel c = new CardPanel(golf, game, game.p2.get(i), false, i, golf.gamePanel.getWidth()/2 + (i%3) * golf.gamePanel.getWidth()/10 + 
-					golf.gamePanel.getWidth()/10, golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
+					golf.gamePanel.getWidth()/9, golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(c);
 		}
 
@@ -168,8 +172,10 @@ public class CardPanel extends JPanel {
 					}
 				}
 				if(game.phase == Phase.END) {
-					// TODO Print the winner
-					System.out.println("End of the game !");
+					for(GameCard gc : game.p1)
+						gc.visible = true;
+					for(GameCard gc : game.p2)
+						gc.visible = true;
 				}
 			}
 		}

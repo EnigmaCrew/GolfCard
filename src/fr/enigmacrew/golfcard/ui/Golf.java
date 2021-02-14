@@ -1,4 +1,4 @@
-package fr.enigmacrew.golfcard;
+package fr.enigmacrew.golfcard.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,8 +15,10 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import fr.enigmacrew.golfcard.Config;
 import fr.enigmacrew.golfcard.audio.musics.AudioPaths;
 import fr.enigmacrew.golfcard.audio.musics.Music;
+import fr.enigmacrew.golfcard.game.Game;
 
 public class Golf extends JFrame {
 	private static final long serialVersionUID = 1L;

@@ -1,8 +1,10 @@
-package fr.enigmacrew.golfcard;
+package fr.enigmacrew.golfcard.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import fr.enigmacrew.golfcard.game.GameCard.Color;
 
 public class Game {
     public enum Phase {
@@ -137,7 +139,7 @@ public class Game {
 
         turnId = 0;
         phase = Phase.START;
-
+        
         String[] ids = {
             "1",
             "2",
@@ -217,16 +219,20 @@ public class Game {
         HashMap<String, Integer> ids = new HashMap<>();
 
         for (GameCard card : cards) {
-            if (ids.containsKey(card.id))
-                ids.put(card.id, ids.get(card.id) + 1);
-            else
-                ids.put(card.id, 1);
+        	if(card.visible) {
+                if (ids.containsKey(card.id))
+                    ids.put(card.id, ids.get(card.id) + 1);
+                else
+                    ids.put(card.id, 1);
+        	}
         }
 
         for (GameCard card : cards) {
-            // There is only one card
-            if (ids.get(card.id) == 1)
-                score += card.value;
+        	if(card.visible) {
+                // There is only one card
+                if (ids.get(card.id) == 1)
+                    score += card.value;
+        	}
         }
 
         return score;
