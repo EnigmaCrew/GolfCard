@@ -21,7 +21,7 @@ public class Game {
     public ArrayList<GameCard> p2 = new ArrayList<>();
 
     private int nCards;
-    private boolean p1Turn;
+    public boolean p1Turn;
     private Phase phase;
 
     public Game(int nCards, boolean p1Turn) {

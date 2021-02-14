@@ -1,5 +1,6 @@
 package fr.enigmacrew.golfcard;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -25,13 +26,16 @@ public class Golf extends JFrame {
 	// Golf settings
 	
 	private Golf golf;
+	public int sixOrNine;
+	private Game game;
 	
 	//**************************************************************************
 	// Components and settings
 	
 	private JPanel menuPanel = new JPanel();
-	private GamePanel gamePanel = new GamePanel();
+	public GamePanel gamePanel = new GamePanel();
 	private JPanel configPanel = new JPanel();
+	private Color configColor = new Color(38, 127, 0);
 	
 	private JSlider volumeSlider = new JSlider();
 	
@@ -52,6 +56,8 @@ public class Golf extends JFrame {
 		// Initializing frame
 
 		golf = this;
+		sixOrNine = 6;
+		
 		setTitle("Golf");
 		setLayout(null);
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -78,14 +84,15 @@ public class Golf extends JFrame {
 		// Panels
 		
 		menuPanel.setLayout(null);
-		menuPanel.setLocation(0, 0);
+		menuPanel.setLocation(0, getHeight()/30);
 		
 		gamePanel.setLayout(null);
-		gamePanel.setLocation(0, 0);
+		gamePanel.setLocation(0, getHeight()/30);
 		menuPanel.setVisible(false);
 		
 		configPanel.setLayout(null);
 		configPanel.setLocation(0, 0);
+		configPanel.setBackground(configColor);
 		
 		//**********************
 		// Config components
@@ -95,6 +102,8 @@ public class Golf extends JFrame {
 		volumeSlider.setMaximum(75);
 		volumeSlider.setValue((int) (Config.VOLUME * 75));
 		volumeSlider.setMajorTickSpacing(1);
+		volumeSlider.setBackground(configColor);
+		volumeSlider.setForeground(configColor);
 		volumeSlider.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
@@ -103,7 +112,9 @@ public class Golf extends JFrame {
 				Music.refreshVolume();
 			}
 		});
-		
+
+		game = new Game(6, true);
+		game.step(new GameAction(GameAction.Kind.DRAW, 2));
 		updateComponents();
 		
 		//**************************************************************************
@@ -111,9 +122,10 @@ public class Golf extends JFrame {
 		
 		configPanel.add(volumeSlider);
 		
-		menuPanel.add(configPanel);
+		add(configPanel);
 		add(gamePanel);
 		add(menuPanel);
+		
 		
 		//**************************************************************************
 		// Start music
@@ -160,9 +172,11 @@ public class Golf extends JFrame {
 		
 		//**********************
 		// Panels
-		
-		menuPanel.setSize(getWidth(), getHeight());
-		gamePanel.setSize(getWidth(), getHeight());
+
+		menuPanel.setLocation(0, getHeight()/30);
+		menuPanel.setSize(getWidth(), getHeight() - getHeight()/30);
+		gamePanel.setLocation(0, getHeight()/30);
+		gamePanel.setSize(getWidth(), getHeight() - getHeight()/30);
 		gamePanel.repaint();
 		configPanel.setSize(getWidth(), getHeight()/30);
 		
@@ -171,5 +185,10 @@ public class Golf extends JFrame {
 		
 		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
 		volumeSlider.setSize(getWidth()/10, getHeight()/50);
+		
+		//**********************
+		// Cards
+		
+		CardPanel.redrawCard(golf, game);
 	}
 }

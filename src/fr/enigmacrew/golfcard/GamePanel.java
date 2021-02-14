@@ -18,7 +18,7 @@ public class GamePanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(Utils.resizeImage(Const.IMAGE_cardCarptet, getWidth()-10, getHeight()-35).getImage(), 0, 0, null);
+		g.drawImage(Utils.resizeImage(Const.IMAGE_CardCarpet, getWidth()-10, getHeight()-35).getImage(), 0, 0, null);
 	}
 	
 }
