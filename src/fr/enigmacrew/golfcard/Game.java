@@ -11,6 +11,7 @@ public class Game {
         // Main gameplay
         MAIN,
         // The game has ended
+        LASTTURN,
         END
     }
 
@@ -95,6 +96,9 @@ public class Game {
             refill();
 
         if (end)
+            phase = Phase.LASTTURN;
+
+        if (phase == Phase.LASTTURN)
             phase = Phase.END;
 
         if (phase == Phase.START) {
