@@ -161,6 +161,12 @@ public class Game {
             GameCard.Color.DIAMOND
         };
 
+        // Clear the cards from the possible last game
+        cardStack.clear();
+        cardTrash.clear();
+        p1.clear();
+        p2.clear();
+        
         // Generate all cards
         for (String id : ids)
             for (GameCard.Color color : colors)
@@ -191,25 +197,6 @@ public class Game {
         Collections.shuffle(cardStack);
         for (GameCard card : cardStack)
             card.visible = false;
-    }
-
-    // TODO : Remove
-    public void debug() {
-        System.out.println("-----");
-        System.out.print("P1 :");
-        for (GameCard card : p1) {
-            System.out.print(" " + card.id);
-        }
-        System.out.print("\nP2 :");
-        for (GameCard card : p2) {
-            System.out.print(" " + card.id);
-        }
-        System.out.println();
-        if (!cardStack.isEmpty())
-            System.out.print("Stack : " + cardStack.get(cardStack.size() - 1).id);
-        if (!cardTrash.isEmpty())
-            System.out.print(" Trash : " + cardTrash.get(cardTrash.size() - 1).id);
-        System.out.println("\n-----");
     }
 
     private int getScore(ArrayList<GameCard> cards) {

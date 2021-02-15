@@ -25,6 +25,7 @@ public class Utils {
 	}
 	
 	public static Font getUpdatedFont(int width) {
+		// Return an appropriated font for the resized frame
 		if(width < Golf.DEFAULT_WIDTH - 200)
 			return new Font("Arial", Font.BOLD, 10);
 		if(width < Golf.DEFAULT_WIDTH)

@@ -13,16 +13,23 @@ import fr.enigmacrew.golfcard.game.Game;
 public class WinPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private WinPanel winPanel;
+	//**************************************************************************
+	// Winner pannel settings
 	
+	private WinPanel winPanel;
 	public Game game;
+	
+	//**************************************************************************
+	// Components and settings
+	
 	public JButton closeButton = new JButton();
 	public JButton reduceButton = new JButton();
 	public JLabel winnerLabel = new JLabel();
 	public JLabel scoreLabel = new JLabel();
 	public JButton replayButton = new JButton();
+	public JButton replaySameButton = new JButton();
 	
-	public WinPanel(GamePanel gamePanel) {
+	public WinPanel(Golf golf) {
 		
 		/*
 		 * The win panel (a popup that can be close and reduce)
@@ -30,13 +37,22 @@ public class WinPanel extends JPanel {
 		 * Ask to play again and play again with the same configuration
 		 */
 		
+		//**************************************************************************
+		// Initializing panel
+		
 		winPanel = this;
 		
 		setOpaque(true);
 		setLayout(null);
 		setVisible(false);
 		
-		setBackground(Golf.configColor);
+		setBackground(golf.configColor);
+		
+		//**************************************************************************
+		// Creating components
+		
+		//**********************
+		// Close and Reduce buttons
 		
 		closeButton.setBackground(Color.RED);
 		closeButton.addActionListener(new ActionListener() {
@@ -53,17 +69,14 @@ public class WinPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// Reduce the frame and put the shortcut in the config panel
 				winPanel.setVisible(false);
-				//TODO
+				golf.reducedWinFrameButton.setVisible(true);
 			}
 		});
 		
-		winnerLabel.setHorizontalAlignment(JLabel.CENTER);
-		winnerLabel.setVerticalAlignment(JLabel.CENTER);
+		//**********************
+		// Replay buttons
 		
-		scoreLabel.setHorizontalAlignment(JLabel.CENTER);
-		scoreLabel.setVerticalAlignment(JLabel.CENTER);
-		
-		replayButton.setBackground(Golf.configColor);
+		replayButton.setBackground(golf.configColor);
 		replayButton.setText("Replay");
 		replayButton.addActionListener(new ActionListener() {
 			@Override
@@ -72,19 +85,54 @@ public class WinPanel extends JPanel {
 				winPanel.setVisible(false);
 				if(game != null) {
 					game.reset();
-					gamePanel.golf.updateComponents();
+					golf.updateComponents();
 				}
 			}
 		});
+		
+		replaySameButton.setBackground(golf.configColor);
+		replaySameButton.setText("Replay with the same settings");
+		replaySameButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Restart a new game with the same settings
+				winPanel.setVisible(false);
+				if(game != null) {
+					game.reset();
+					golf.updateComponents();
+				}
+			}
+		});
+		
+		//**********************
+		// Labels
+		
+		winnerLabel.setHorizontalAlignment(JLabel.CENTER);
+		winnerLabel.setVerticalAlignment(JLabel.CENTER);
+		
+		scoreLabel.setHorizontalAlignment(JLabel.CENTER);
+		scoreLabel.setVerticalAlignment(JLabel.CENTER);
+		
+		//**************************************************************************
+		// Adding components
 		
 		add(closeButton);
 		add(reduceButton);
 		add(winnerLabel);
 		add(scoreLabel);
 		add(replayButton);
+		add(replaySameButton);
 	}
 	
+	//**************************************************************************
+	// Functions
+	
 	public void setValues(){
+		
+		/*
+		 * Get up to date the winner and the scores
+		 */
+		
 		if(game != null) {
 			Integer[] scores = game.getScores();
 			winnerLabel.setText(scores[0] > scores[1] ? "Player 2 Wins !" : "Player 1 Wins !");

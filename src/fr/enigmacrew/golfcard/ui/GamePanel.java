@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
 		setLayout(null);
 		setVisible(true);
 		
-		winPanel = new WinPanel(this);
+		winPanel = new WinPanel(golf);
 		
 		add(winPanel);
 	}

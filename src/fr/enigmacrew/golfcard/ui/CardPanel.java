@@ -26,6 +26,14 @@ public class CardPanel extends JPanel {
 	
 	public CardPanel(Golf golf, Game game, GameCard card, boolean p1, int index, int x, int y) {
 		
+		/*
+		 * Print the card image as a background
+		 * Clickable to let the user play the game
+		 */
+		
+		//**************************************************************************
+		// Initializing panel
+		
 		this.golf = golf;
 		this.game = game;
 		this.card = card;
@@ -59,7 +67,13 @@ public class CardPanel extends JPanel {
 		}
 	}
 	
-	public static void redrawCard(Golf golf, Game game) {
+	public static void redrawCards(Golf golf, Game game) {
+		
+		/*
+		 * Clear all the card panels from the game panel
+		 * Redraw all of them with the good settings
+		 */
+		
 		for(Component c : golf.gamePanel.getComponents()) {
 			if(c instanceof CardPanel) {
 				c.setVisible(false);
@@ -100,6 +114,9 @@ public class CardPanel extends JPanel {
 		
 	}
 	
+	//**************************************************************************
+	// Class
+	
 	private class ClickListener implements MouseListener {
 		
 		/*
@@ -115,7 +132,7 @@ public class CardPanel extends JPanel {
 						game.step(new GameAction(Kind.DRAW, -1));
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
-						redrawCard(golf, game);
+						redrawCards(golf, game);
 					}
 				}
 				else {
@@ -124,7 +141,7 @@ public class CardPanel extends JPanel {
 						if(game.phase != Phase.START && game.cardStack.size() != 0) {
 							game.cardStack.get(game.cardStack.size()-1).visible = true;
 							golf.drawTrashTurn = 1;
-							redrawCard(golf, game);
+							redrawCards(golf, game);
 						}
 					}
 					else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
@@ -142,7 +159,7 @@ public class CardPanel extends JPanel {
 						}
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
-						redrawCard(golf, game);
+						redrawCards(golf, game);
 					}
 					else if(index == -1) {
 						if(golf.drawTrashTurn == 3) {
@@ -154,7 +171,7 @@ public class CardPanel extends JPanel {
 							game.step(new GameAction(Kind.DRAW, -1));
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
-							redrawCard(golf, game);
+							redrawCards(golf, game);
 						}
 					}
 					else if(card.visible && game.p1Turn == p1 && index >= 0) {
@@ -167,15 +184,18 @@ public class CardPanel extends JPanel {
 								game.step(new GameAction(Kind.DRAW, index));
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
-							redrawCard(golf, game);
+							redrawCards(golf, game);
 						}
 					}
 				}
 				if(game.phase == Phase.END) {
+					// The game is finished
+					// Print all the cards
 					for(GameCard gc : game.p1)
 						gc.visible = true;
 					for(GameCard gc : game.p2)
 						gc.visible = true;
+					// Print the winner pannel (winner + scores)
 					golf.gamePanel.winPanel.game = game;
 					golf.gamePanel.winPanel.setValues();
 					golf.gamePanel.winPanel.setVisible(true);
