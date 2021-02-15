@@ -75,7 +75,7 @@ public class CardPanel extends JPanel {
 		 */
 		
 		for(Component c : golf.gamePanel.getComponents()) {
-			if(c instanceof CardPanel) {
+			if(c instanceof CardPanel || c instanceof CardPanel.SelectedCard) {
 				c.setVisible(false);
 				golf.remove(c);
 			}
@@ -84,15 +84,21 @@ public class CardPanel extends JPanel {
 		// Player 1
 		for(int i = 0; i < golf.sixOrNine; i++) {
 			CardPanel c = new CardPanel(golf, game, game.p1.get(i), true, i, (i%3) * golf.gamePanel.getWidth()/10 + golf.gamePanel.getWidth()/10, 
-					golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
+					golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4  - (golf.sixOrNine == 9 ? golf.gamePanel.getHeight()/4 : 0));
 			golf.gamePanel.add(c);
 		}
 		
 		// Player 2
 		for(int i = 0; i < golf.sixOrNine; i++) {
 			CardPanel c = new CardPanel(golf, game, game.p2.get(i), false, i, golf.gamePanel.getWidth()/2 + (i%3) * golf.gamePanel.getWidth()/10 + 
-					golf.gamePanel.getWidth()/9, golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4);
+					golf.gamePanel.getWidth()/9, golf.gamePanel.getHeight()/10 + ((i/3)+1) * golf.gamePanel.getHeight()/4 - (golf.sixOrNine == 9 ? golf.gamePanel.getHeight()/4 : 0));
 			golf.gamePanel.add(c);
+		}
+		
+		// Selected card
+		if(golf.gamePanel.selectedVisible) {
+			SelectedCard sc = new SelectedCard(golf.gamePanel, golf.gamePanel.selectedCard.x, golf.gamePanel.selectedCard.y);
+			golf.gamePanel.add(sc);
 		}
 
 		// Deck
@@ -111,11 +117,10 @@ public class CardPanel extends JPanel {
 					golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(c);
 		}
-		
 	}
 	
 	//**************************************************************************
-	// Class
+	// Classes
 	
 	private class ClickListener implements MouseListener {
 		
@@ -132,6 +137,7 @@ public class CardPanel extends JPanel {
 						game.step(new GameAction(Kind.DRAW, -1));
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
+						golf.gamePanel.selectedVisible = false;
 						redrawCards(golf, game);
 					}
 				}
@@ -141,6 +147,9 @@ public class CardPanel extends JPanel {
 						if(game.phase != Phase.START && game.cardStack.size() != 0) {
 							game.cardStack.get(game.cardStack.size()-1).visible = true;
 							golf.drawTrashTurn = 1;
+							golf.gamePanel.selectedCard.x = getX();
+							golf.gamePanel.selectedCard.y = getY();
+							golf.gamePanel.selectedVisible = true;
 							redrawCards(golf, game);
 						}
 					}
@@ -159,18 +168,31 @@ public class CardPanel extends JPanel {
 						}
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
+						golf.gamePanel.selectedVisible = false;
 						redrawCards(golf, game);
 					}
 					else if(index == -1) {
 						if(golf.drawTrashTurn == 3) {
 							// Pick a card
 							golf.drawTrashTurn = 2;
+							golf.gamePanel.selectedCard.x = getX();
+							golf.gamePanel.selectedCard.y = getY();
+							golf.gamePanel.selectedVisible = true;
+							redrawCards(golf, game);
 						}
-						else if(golf.drawTrashTurn != 2){
+						else if(golf.drawTrashTurn == 2){
+							// Cancel the selection of the trash
+							// Reset the action memory
+							golf.drawTrashTurn = 3;
+							golf.gamePanel.selectedVisible = false;
+							redrawCards(golf, game);
+						}
+						else {
 							// Throw the picked card
 							game.step(new GameAction(Kind.DRAW, -1));
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
+							golf.gamePanel.selectedVisible = false;
 							redrawCards(golf, game);
 						}
 					}
@@ -184,6 +206,7 @@ public class CardPanel extends JPanel {
 								game.step(new GameAction(Kind.DRAW, index));
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
+							golf.gamePanel.selectedVisible = false;
 							redrawCards(golf, game);
 						}
 					}
@@ -222,6 +245,39 @@ public class CardPanel extends JPanel {
 		public void mouseReleased(MouseEvent arg0) {
 			// Do nothing
 		}
+	}
+	
+	
+	
+	public static class SelectedCard extends JPanel {
+		private static final long serialVersionUID = 1L;
+		
+		/*
+		 * Print a box around the selected card in green
+		 */
+
+		public int x;
+		public int y;
+		
+		public SelectedCard(GamePanel gamePanel, int x, int y) {
+			
+			this.x = x;
+			this.y = y;
+			
+			setLocation(x, y);
+			setSize(gamePanel.golf.getWidth()/12, gamePanel.getHeight()/5);
+			
+			setOpaque(false);
+			setLayout(null);
+			setVisible(true);
+		}
+		
+		@Override
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.drawImage(Utils.resizeImage(Const.IMAGE_SelectedCard, getWidth(), getHeight()).getImage(), 0, 0, null);
+		}
+		
 	}
 	
 }

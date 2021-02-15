@@ -66,7 +66,7 @@ public class Golf extends JFrame {
 		// Initializing frame
 
 		golf = this;
-		sixOrNine = 6;
+		sixOrNine = 9;
 		
 		drawTrashTurn = 3; // Turn
 		
@@ -75,6 +75,7 @@ public class Golf extends JFrame {
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
 		setLocationRelativeTo(null);
+		setIconImage(Const.IMAGE_CardBack.getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent componentEvent) {
@@ -138,8 +139,9 @@ public class Golf extends JFrame {
 			}
 		});
 
-		game = new Game(6, true);
+		game = new Game(sixOrNine);
 		updateComponents();
+		gamePanel.selectedCard.setVisible(false);
 		
 		//**************************************************************************
 		// Adding components
@@ -221,12 +223,12 @@ public class Golf extends JFrame {
 		// Buttons
 		gamePanel.winPanel.closeButton.setLocation(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/20, 0);
 		gamePanel.winPanel.closeButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
-		gamePanel.winPanel.closeButton.setIcon(Utils.resizeImage(Const.IMAGE_closeButton, 
+		gamePanel.winPanel.closeButton.setIcon(Utils.resizeImage(Const.IMAGE_CloseButton, 
 				gamePanel.winPanel.closeButton.getWidth(), gamePanel.winPanel.closeButton.getHeight()));
 		
 		gamePanel.winPanel.reduceButton.setLocation(gamePanel.winPanel.getWidth() - (gamePanel.winPanel.getWidth()/20)*2, 0);
 		gamePanel.winPanel.reduceButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
-		gamePanel.winPanel.reduceButton.setIcon(Utils.resizeImage(Const.IMAGE_reduceButton, 
+		gamePanel.winPanel.reduceButton.setIcon(Utils.resizeImage(Const.IMAGE_ReduceButton, 
 				gamePanel.winPanel.reduceButton.getWidth(), gamePanel.winPanel.reduceButton.getHeight()));
 		
 		gamePanel.winPanel.replayButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/4);

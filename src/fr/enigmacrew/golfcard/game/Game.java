@@ -25,10 +25,8 @@ public class Game {
     private int nCards;
     public Phase phase;
 
-    public Game(int nCards, boolean p1Turn) {
+    public Game(int nCards) {
         this.nCards = nCards;
-        this.p1Turn = p1Turn;
-
         reset();
     }
 
@@ -137,6 +135,7 @@ public class Game {
 
         turnId = 0;
         phase = Phase.START;
+        p1Turn = true;
         
         String[] ids = {
             "1",

@@ -5,12 +5,15 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import fr.enigmacrew.golfcard.Const;
+import fr.enigmacrew.golfcard.ui.CardPanel.SelectedCard;
 import fr.enigmacrew.golfcard.utils.Utils;
 
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	public WinPanel winPanel;
+	public SelectedCard selectedCard;
+	public boolean selectedVisible;
 	
 	public Golf golf;
 	
@@ -27,7 +30,10 @@ public class GamePanel extends JPanel {
 		setVisible(true);
 		
 		winPanel = new WinPanel(golf);
+		selectedCard = new CardPanel.SelectedCard(this, 0, 0);
+		selectedVisible = false;
 		
+		add(selectedCard);
 		add(winPanel);
 	}
 	
