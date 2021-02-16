@@ -7,6 +7,7 @@ public class Const {
 	//***********************
 	// Paths
 	
+	public static final ImageIcon IMAGE_Logo = new ImageIcon(Main.class.getResource("images/logo.PNG"));
 	public static final ImageIcon IMAGE_CardCarpet = new ImageIcon(Main.class.getResource("images/ui/cardCarpet.png"));
 	public static final ImageIcon IMAGE_CloseButton = new ImageIcon(Main.class.getResource("images/ui/closeButton.png"));
 	public static final ImageIcon IMAGE_ReduceButton = new ImageIcon(Main.class.getResource("images/ui/reduceButton.png"));

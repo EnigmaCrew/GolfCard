@@ -18,6 +18,9 @@ import fr.enigmacrew.golfcard.utils.Utils;
 public class CardPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
+	//**************************************************************************
+	// Components and settings
+	
 	private Golf golf;
 	private Game game;
 	private GameCard card;

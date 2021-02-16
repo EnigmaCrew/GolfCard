@@ -14,6 +14,9 @@ import fr.enigmacrew.golfcard.utils.Utils;
 public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
+	//**************************************************************************
+	// Components and settings
+	
 	public WinPanel winPanel;
 	public SelectedCard selectedCard;
 	public boolean selectedVisible;
@@ -29,11 +32,17 @@ public class GamePanel extends JPanel {
 		 * The game panel (contains all the cards and the win panel)
 		 */
 		
+		//**************************************************************************
+		// Initializing panel
+		
 		this.golf = golf;
 		
 		setOpaque(false);
 		setLayout(null);
 		setVisible(true);
+		
+		//**************************************************************************
+		// Creating components
 		
 		winPanel = new WinPanel(golf);
 		selectedCard = new CardPanel.SelectedCard(this, 0, 0);
@@ -49,6 +58,9 @@ public class GamePanel extends JPanel {
 		player2Label.setVerticalAlignment(JLabel.CENTER);
 		
 		setTurn(1); // Default
+		
+		//**************************************************************************
+		// Adding components
 		
 		add(player1Label);
 		add(player2Label);

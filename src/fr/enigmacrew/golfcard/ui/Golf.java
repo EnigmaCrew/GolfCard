@@ -27,7 +27,6 @@ import fr.enigmacrew.golfcard.utils.Utils;
 
 public class Golf extends JFrame {
 	private static final long serialVersionUID = 1L;
-	
 
 	//**************************************************************************
 	// Golf settings
@@ -41,7 +40,7 @@ public class Golf extends JFrame {
 	//**************************************************************************
 	// Components and settings
 	
-	private JPanel menuPanel = new JPanel();
+	private MenuPanel menuPanel;
 	public GamePanel gamePanel;
 	private JPanel configPanel = new JPanel();
 	public final Color configColor = new Color(38, 127, 0);
@@ -96,13 +95,14 @@ public class Golf extends JFrame {
 		//**********************
 		// Panels
 		
+		menuPanel = new MenuPanel(golf);
 		menuPanel.setLayout(null);
 		menuPanel.setLocation(0, getHeight()/30);
 
 		gamePanel = new GamePanel(golf);
 		gamePanel.setLayout(null);
 		gamePanel.setLocation(0, getHeight()/30);
-		menuPanel.setVisible(false);
+		gamePanel.setVisible(false);
 		
 		configPanel.setLayout(null);
 		configPanel.setLocation(0, 0);
@@ -216,6 +216,16 @@ public class Golf extends JFrame {
 		gamePanel.winPanel.setLocation(getWidth()/2 - (getWidth() - getWidth()/3)/4, getHeight()/2 - 
 				(getHeight() - getHeight()/4)/2 + getHeight()/16);
 		gamePanel.winPanel.setSize((getWidth()/3), getHeight()/2);
+		
+		//**********************
+		// Menu Panel components
+		
+		// Logo Panel
+		menuPanel.logoPanel.setLocation(getWidth()/6, gamePanel.getHeight()/6);
+		menuPanel.logoPanel.setSize(getWidth() - getWidth()/3, gamePanel.getHeight()/3);
+		
+		// Buttons
+		//menuPanel.choiceButton1.setLocation(x, y);
 		
 		//**********************
 		// Game Panel components
