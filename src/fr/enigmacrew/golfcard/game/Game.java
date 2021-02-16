@@ -37,7 +37,18 @@ public class Game {
          */
         ArrayList<GameCard> player = p1Turn ? p1 : p2;
 
-        if (ai && !p1Turn) action = aiPlay();
+        // Start phase but p1 has not fully played
+        if (action == null && ai && p1Turn) return false;
+
+        if (ai && !p1Turn) {
+            if (phase == Phase.START) {
+                ++turnId;
+
+                return false;
+            }
+
+            action = aiPlay();
+        }
 
         switch (action.kind) {
             case DRAW:
@@ -109,7 +120,19 @@ public class Game {
 
             // Switch player
             if (turnId % (nCards / 3) == nCards / 3 - 1) {
-                p1Turn = !p1Turn;
+                if (!ai)
+                    p1Turn = !p1Turn;
+                else {
+                    phase = Phase.MAIN;
+
+                    // Play initial moves for the ai
+                    for (int i = 0; i < nCards / 3; ++i)  {
+                        p1Turn = false;
+                        step(null, true);
+                    }
+
+                    p1Turn = true;
+                }
             }
         } else
             p1Turn = !p1Turn;
@@ -128,6 +151,9 @@ public class Game {
             if (!p2.get(i).visible)
                 hiddenCards.add(i);
 
+        if (phase == Phase.START) {
+            return new GameAction(GameAction.Kind.TURN, hiddenCards.get(0));
+        }
         return new GameAction(GameAction.Kind.DRAW, hiddenCards.get(0));
     }
 
