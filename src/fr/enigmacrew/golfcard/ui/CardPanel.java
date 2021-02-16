@@ -67,6 +67,9 @@ public class CardPanel extends JPanel {
 		}
 	}
 	
+	//**************************************************************************
+	// Functions
+	
 	public static void redrawCards(Golf golf, Game game) {
 		
 		/*
@@ -141,6 +144,7 @@ public class CardPanel extends JPanel {
 					if(golf.drawTrashTurn == 1) {
 						// Throw the picked card
 						game.step(new GameAction(Kind.DRAW, -1));
+						golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
 						golf.gamePanel.selectedVisible = false;
@@ -161,10 +165,9 @@ public class CardPanel extends JPanel {
 						}
 					}
 					else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
-						if(golf.drawTrashTurn == 3) {
+						if(golf.drawTrashTurn == 3)
 							//Turn a card
-							game.step(new GameAction(Kind.TURN, index));						
-						}
+							game.step(new GameAction(Kind.TURN, index));
 						else {
 							if(golf.drawTrashTurn == 2)
 								// Switch the card from the trash
@@ -173,6 +176,7 @@ public class CardPanel extends JPanel {
 								// Switch the card from the deck
 								game.step(new GameAction(Kind.DRAW, index));
 						}
+						golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
 						golf.gamePanel.selectedVisible = false;
@@ -198,6 +202,7 @@ public class CardPanel extends JPanel {
 						else {
 							// Throw the picked card
 							game.step(new GameAction(Kind.DRAW, -1));
+							golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
 							golf.gamePanel.selectedVisible = false;
@@ -212,6 +217,7 @@ public class CardPanel extends JPanel {
 							else
 								// Switch the card from the deck
 								game.step(new GameAction(Kind.DRAW, index));
+							golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
 							golf.gamePanel.selectedVisible = false;
@@ -226,6 +232,8 @@ public class CardPanel extends JPanel {
 						gc.visible = true;
 					for(GameCard gc : game.p2)
 						gc.visible = true;
+					// Disable the borders around the player labels
+					golf.gamePanel.setTurn(0);
 					// Print the winner pannel (winner + scores)
 					golf.gamePanel.winPanel.game = game;
 					golf.gamePanel.winPanel.setValues();

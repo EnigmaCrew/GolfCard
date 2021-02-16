@@ -218,6 +218,19 @@ public class Golf extends JFrame {
 		gamePanel.winPanel.setSize((getWidth()/3), getHeight()/2);
 		
 		//**********************
+		// Game Panel components
+		
+		// Labels
+		gamePanel.player1Label.setLocation(gamePanel.getWidth()/4, gamePanel.getHeight() - gamePanel.getHeight()/6);
+		gamePanel.player1Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+		gamePanel.player1Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+		
+		gamePanel.player2Label.setLocation(gamePanel.getWidth() - gamePanel.getWidth()/4 - gamePanel.getWidth()/8, gamePanel.getHeight() - 
+				gamePanel.getHeight()/6);
+		gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+		gamePanel.player2Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+		
+		//**********************
 		// Win Panel components
 		
 		// Buttons
