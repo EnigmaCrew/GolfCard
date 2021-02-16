@@ -225,7 +225,17 @@ public class Golf extends JFrame {
 		menuPanel.logoPanel.setSize(getWidth() - getWidth()/3, gamePanel.getHeight()/3);
 		
 		// Buttons
-		//menuPanel.choiceButton1.setLocation(x, y);
+		menuPanel.choiceButton1.setLocation(getWidth()/4 - getWidth()/12, getHeight() - getHeight()/4 - getHeight()/6);
+		menuPanel.choiceButton1.setSize(getWidth()/6, getHeight()/6);
+		menuPanel.choiceButton1.setFont(Utils.getUpdatedFont(getWidth()));
+		
+		menuPanel.choiceButton2.setLocation(getWidth() - getWidth()/4 - getWidth()/12, getHeight() - getHeight()/4 - getHeight()/6);
+		menuPanel.choiceButton2.setSize(getWidth()/6, getHeight()/6);
+		menuPanel.choiceButton2.setFont(Utils.getUpdatedFont(getWidth()));
+		
+		menuPanel.backExitButton.setLocation(getWidth()/2 - getWidth()/12, getHeight() - getHeight()/5 - getHeight()/6);
+		menuPanel.backExitButton.setSize(getWidth()/6, getHeight()/6);
+		menuPanel.backExitButton.setFont(Utils.getUpdatedFont(getWidth()));
 		
 		//**********************
 		// Game Panel components

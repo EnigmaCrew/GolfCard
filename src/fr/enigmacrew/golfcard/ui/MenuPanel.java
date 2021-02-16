@@ -4,8 +4,11 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import fr.enigmacrew.golfcard.Const;
 import fr.enigmacrew.golfcard.utils.Utils;
@@ -40,11 +43,22 @@ public class MenuPanel extends JPanel {
 		logoPanel = new LogoPanel();
 		
 		choiceButton1 = new JButton();
-		choiceButton1.setText("Player vs Player");
+		choiceButton1.setText("Two Players");
+		choiceButton1.setBackground(golf.configColor);
+		choiceButton1.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent evt) {
+            	if(choiceButton1.isContentAreaFilled())
+            		choiceButton1.setContentAreaFilled(false);
+            	else
+            		choiceButton1.setContentAreaFilled(true);
+            }
+        });
+		choiceButton1.setFocusPainted(false);
 		choiceButton1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(choiceButton1.getText().equals("Player vs Player")) {
+				if(choiceButton1.getText().equals("Two Players")) {
 					choiceButton1.setText("6 cards");
 					choiceButton2.setText("9 cards");
 					backExitButton.setText("Back");
@@ -56,11 +70,22 @@ public class MenuPanel extends JPanel {
 		});
 		
 		choiceButton2 = new JButton();
-		choiceButton2.setText("Player vs AI");
+		choiceButton2.setText("One Player");
+		choiceButton2.setBackground(golf.configColor);
+		choiceButton2.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent evt) {
+            	if(choiceButton2.isContentAreaFilled())
+            		choiceButton2.setContentAreaFilled(false);
+            	else
+            		choiceButton2.setContentAreaFilled(true);
+            }
+        });
+		choiceButton2.setFocusPainted(false);
 		choiceButton2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(choiceButton2.getText().equals("Player vs AI")) {
+				if(choiceButton2.getText().equals("One Player")) {
 					choiceButton1.setText("6 cards");
 					choiceButton2.setText("9 cards");
 					backExitButton.setText("Back");
@@ -73,14 +98,25 @@ public class MenuPanel extends JPanel {
 		
 		backExitButton = new JButton();
 		backExitButton.setText("Exit");
+		backExitButton.setBackground(golf.configColor);
+		backExitButton.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent evt) {
+            	if(backExitButton.isContentAreaFilled())
+            		backExitButton.setContentAreaFilled(false);
+            	else
+            		backExitButton.setContentAreaFilled(true);
+            }
+        });
+		backExitButton.setFocusPainted(false);
 		backExitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(backExitButton.getText().equals("Exit"))
 					System.exit(0);
 				else {
-					choiceButton1.setText("Player vs Player");
-					choiceButton2.setText("Player vs AI");
+					choiceButton1.setText("Two Players");
+					choiceButton2.setText("One Player");
 					backExitButton.setText("Exit");
 				}
 			}
