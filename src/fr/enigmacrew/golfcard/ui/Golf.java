@@ -256,7 +256,7 @@ public class Golf extends JFrame {
 		gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
 		gamePanel.winPanel.winnerLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
 				gamePanel.winPanel.getHeight()/10);
-		gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+		gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth()*2));
 		
 		gamePanel.winPanel.scoreLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/5);
 		gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 

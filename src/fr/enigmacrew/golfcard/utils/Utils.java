@@ -30,11 +30,17 @@ public class Utils {
 			return new Font("Arial", Font.BOLD, 10);
 		if(width < Golf.DEFAULT_WIDTH)
 			return new Font("Arial", Font.BOLD, 15);
-		if(width >= Golf.DEFAULT_WIDTH && width < Golf.DEFAULT_WIDTH + 300)
+		if(width < Golf.DEFAULT_WIDTH + 300)
 			return new Font("Arial", Font.BOLD, 20);
-		if(width >= Golf.DEFAULT_WIDTH && width < Golf.DEFAULT_WIDTH + 600)
+		if(width < Golf.DEFAULT_WIDTH + 600)
 			return new Font("Arial", Font.BOLD, 25);
-		return new Font("Arial", Font.BOLD, 30);
+		if(width < Golf.DEFAULT_WIDTH + 900)
+			return new Font("Arial", Font.BOLD, 30);
+		if(width < Golf.DEFAULT_WIDTH + 1200)
+			return new Font("Arial", Font.BOLD, 35);
+		if(width < Golf.DEFAULT_WIDTH + 1500)
+			return new Font("Arial", Font.BOLD, 40);
+		return new Font("Arial", Font.BOLD, 45);
 	}
 	
 }
