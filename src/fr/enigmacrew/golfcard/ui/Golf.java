@@ -258,12 +258,12 @@ public class Golf extends JFrame {
 			
 			// Labels
 			gamePanel.player1Label.setLocation(gamePanel.getWidth()/4, gamePanel.getHeight() - gamePanel.getHeight()/6);
-			gamePanel.player1Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+			gamePanel.player1Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/16);
 			gamePanel.player1Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
 			
 			gamePanel.player2Label.setLocation(gamePanel.getWidth() - gamePanel.getWidth()/4 - gamePanel.getWidth()/8, gamePanel.getHeight() - 
 					gamePanel.getHeight()/6);
-			gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+			gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/16);
 			gamePanel.player2Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
 			
 			//**********************
@@ -286,7 +286,7 @@ public class Golf extends JFrame {
 			
 			gamePanel.winPanel.replaySameButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/8);
 			gamePanel.winPanel.replaySameButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
-			gamePanel.winPanel.replaySameButton.setFont(Utils.getUpdatedFont(getWidth()));
+			gamePanel.winPanel.replaySameButton.setFont(Utils.getUpdatedFont(getWidth() - getWidth()/10));
 			
 			// Labels
 			gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
