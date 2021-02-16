@@ -33,14 +33,14 @@ public class Golf extends JFrame {
 	
 	private Golf golf;
 	public int sixOrNine;
-	private Game game;
+	public Game game;
 	
 	public int drawTrashTurn;
 	
 	//**************************************************************************
 	// Components and settings
 	
-	private MenuPanel menuPanel;
+	public MenuPanel menuPanel;
 	public GamePanel gamePanel;
 	private JPanel configPanel = new JPanel();
 	public final Color configColor = new Color(38, 127, 0);
@@ -78,7 +78,10 @@ public class Golf extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent componentEvent) {
-				updateComponents();
+				if(menuPanel.isVisible())
+					updateComponents(true);
+				else
+					updateComponents(false);
 		    }
 		});
 		addWindowListener(new WindowAdapter() {
@@ -138,9 +141,8 @@ public class Golf extends JFrame {
 				Music.refreshVolume();
 			}
 		});
-
-		game = new Game(sixOrNine);
-		updateComponents();
+		
+		golf.updateComponents(true);
 		gamePanel.selectedCard.setVisible(false);
 		
 		//**************************************************************************
@@ -191,7 +193,7 @@ public class Golf extends JFrame {
 	//**************************************************************************
 	// Functions
 	
-	public void updateComponents() {
+	public void updateComponents(boolean onlyMenu) {
 		
 		/*
 		 * Update the components size and font when the window is resized
@@ -237,64 +239,67 @@ public class Golf extends JFrame {
 		menuPanel.backExitButton.setSize(getWidth()/6, getHeight()/6);
 		menuPanel.backExitButton.setFont(Utils.getUpdatedFont(getWidth()));
 		
-		//**********************
-		// Game Panel components
-		
-		// Labels
-		gamePanel.player1Label.setLocation(gamePanel.getWidth()/4, gamePanel.getHeight() - gamePanel.getHeight()/6);
-		gamePanel.player1Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
-		gamePanel.player1Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
-		
-		gamePanel.player2Label.setLocation(gamePanel.getWidth() - gamePanel.getWidth()/4 - gamePanel.getWidth()/8, gamePanel.getHeight() - 
-				gamePanel.getHeight()/6);
-		gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
-		gamePanel.player2Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
-		
-		//**********************
-		// Win Panel components
-		
-		// Buttons
-		gamePanel.winPanel.closeButton.setLocation(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/20, 0);
-		gamePanel.winPanel.closeButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
-		gamePanel.winPanel.closeButton.setIcon(Utils.resizeImage(Const.IMAGE_CloseButton, 
-				gamePanel.winPanel.closeButton.getWidth(), gamePanel.winPanel.closeButton.getHeight()));
-		
-		gamePanel.winPanel.reduceButton.setLocation(gamePanel.winPanel.getWidth() - (gamePanel.winPanel.getWidth()/20)*2, 0);
-		gamePanel.winPanel.reduceButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
-		gamePanel.winPanel.reduceButton.setIcon(Utils.resizeImage(Const.IMAGE_ReduceButton, 
-				gamePanel.winPanel.reduceButton.getWidth(), gamePanel.winPanel.reduceButton.getHeight()));
-		
-		gamePanel.winPanel.replayButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/4);
-		gamePanel.winPanel.replayButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
-		gamePanel.winPanel.replayButton.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
-		
-		gamePanel.winPanel.replaySameButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/8);
-		gamePanel.winPanel.replaySameButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
-		gamePanel.winPanel.replaySameButton.setFont(Utils.getUpdatedFont(getWidth()));
-		
-		// Labels
-		gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
-		gamePanel.winPanel.winnerLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
-				gamePanel.winPanel.getHeight()/10);
-		gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth()*2));
-		
-		gamePanel.winPanel.scoreLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/5);
-		gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
-				gamePanel.winPanel.getHeight()/10);
-		gamePanel.winPanel.scoreLabel.setFont(Utils.getUpdatedFont(getWidth()));
-		
-		//**********************
-		// Config components
-		
-		reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
-		reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
-		
-		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
-		volumeSlider.setSize(getWidth()/10, getHeight()/50);
-		
-		//**********************
-		// Cards
-		
-		CardPanel.redrawCards(golf, game);
+		if(!onlyMenu) {
+			
+			//**********************
+			// Game Panel components
+			
+			// Labels
+			gamePanel.player1Label.setLocation(gamePanel.getWidth()/4, gamePanel.getHeight() - gamePanel.getHeight()/6);
+			gamePanel.player1Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+			gamePanel.player1Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+			
+			gamePanel.player2Label.setLocation(gamePanel.getWidth() - gamePanel.getWidth()/4 - gamePanel.getWidth()/8, gamePanel.getHeight() - 
+					gamePanel.getHeight()/6);
+			gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/20);
+			gamePanel.player2Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+			
+			//**********************
+			// Win Panel components
+			
+			// Buttons
+			gamePanel.winPanel.closeButton.setLocation(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/20, 0);
+			gamePanel.winPanel.closeButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
+			gamePanel.winPanel.closeButton.setIcon(Utils.resizeImage(Const.IMAGE_CloseButton, 
+					gamePanel.winPanel.closeButton.getWidth(), gamePanel.winPanel.closeButton.getHeight()));
+			
+			gamePanel.winPanel.reduceButton.setLocation(gamePanel.winPanel.getWidth() - (gamePanel.winPanel.getWidth()/20)*2, 0);
+			gamePanel.winPanel.reduceButton.setSize(gamePanel.winPanel.getWidth()/20, gamePanel.winPanel.getHeight()/20);
+			gamePanel.winPanel.reduceButton.setIcon(Utils.resizeImage(Const.IMAGE_ReduceButton, 
+					gamePanel.winPanel.reduceButton.getWidth(), gamePanel.winPanel.reduceButton.getHeight()));
+			
+			gamePanel.winPanel.replayButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/4);
+			gamePanel.winPanel.replayButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
+			gamePanel.winPanel.replayButton.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+			
+			gamePanel.winPanel.replaySameButton.setLocation(0, gamePanel.winPanel.getHeight() - gamePanel.winPanel.getHeight()/8);
+			gamePanel.winPanel.replaySameButton.setSize(gamePanel.winPanel.getWidth(), gamePanel.winPanel.getHeight()/8);
+			gamePanel.winPanel.replaySameButton.setFont(Utils.getUpdatedFont(getWidth()));
+			
+			// Labels
+			gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
+			gamePanel.winPanel.winnerLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
+					gamePanel.winPanel.getHeight()/10);
+			gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth()*2));
+			
+			gamePanel.winPanel.scoreLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/5);
+			gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
+					gamePanel.winPanel.getHeight()/10);
+			gamePanel.winPanel.scoreLabel.setFont(Utils.getUpdatedFont(getWidth()));
+			
+			//**********************
+			// Config components
+			
+			reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
+			reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
+			
+			volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
+			volumeSlider.setSize(getWidth()/10, getHeight()/50);
+			
+			//**********************
+			// Cards
+			
+			CardPanel.redrawCards(golf, game);
+		}
 	}
 }

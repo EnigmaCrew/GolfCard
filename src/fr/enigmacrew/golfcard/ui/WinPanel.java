@@ -86,7 +86,9 @@ public class WinPanel extends JPanel {
 				if(game != null) {
 					game.reset();
 					golf.gamePanel.setTurn(1);
-					golf.updateComponents();
+					golf.updateComponents(false);
+					golf.gamePanel.setVisible(false);
+					golf.menuPanel.setVisible(true);
 				}
 			}
 		});
@@ -101,7 +103,7 @@ public class WinPanel extends JPanel {
 				if(game != null) {
 					game.reset();
 					golf.gamePanel.setTurn(1);
-					golf.updateComponents();
+					golf.updateComponents(false);
 				}
 			}
 		});

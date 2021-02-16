@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import fr.enigmacrew.golfcard.Const;
+import fr.enigmacrew.golfcard.game.Game;
 import fr.enigmacrew.golfcard.utils.Utils;
 
 public class MenuPanel extends JPanel {
@@ -64,7 +64,14 @@ public class MenuPanel extends JPanel {
 					backExitButton.setText("Back");
 				}
 				else {
-					
+					choiceButton1.setText("Two Players");
+					choiceButton2.setText("One Player");
+					backExitButton.setText("Exit");
+					golf.sixOrNine = 6;
+					golf.game = new Game(6);
+					golf.menuPanel.setVisible(false);
+					golf.gamePanel.setVisible(true);
+					golf.updateComponents(false);
 				}
 			}
 		});
@@ -91,7 +98,14 @@ public class MenuPanel extends JPanel {
 					backExitButton.setText("Back");
 				}
 				else {
-					
+					choiceButton1.setText("Two Players");
+					choiceButton2.setText("One Player");
+					backExitButton.setText("Exit");
+					golf.sixOrNine = 9;
+					golf.game = new Game(9);
+					golf.menuPanel.setVisible(false);
+					golf.gamePanel.setVisible(true);
+					golf.updateComponents(false);
 				}
 			}
 		});
