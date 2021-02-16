@@ -77,7 +77,7 @@ public class WinPanel extends JPanel {
 		// Replay buttons
 		
 		replayButton.setBackground(golf.configColor);
-		replayButton.setText("Replay");
+		replayButton.setText("Play again");
 		replayButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -94,7 +94,7 @@ public class WinPanel extends JPanel {
 		});
 		
 		replaySameButton.setBackground(golf.configColor);
-		replaySameButton.setText("Replay with the same settings");
+		replaySameButton.setText("Play again with the same settings");
 		replaySameButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
