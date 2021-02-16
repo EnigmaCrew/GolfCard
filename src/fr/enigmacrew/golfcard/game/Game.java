@@ -37,6 +37,8 @@ public class Game {
          */
         ArrayList<GameCard> player = p1Turn ? p1 : p2;
 
+        if (phase == Phase.END) return true;
+
         // Start phase but p1 has not fully played
         if (action == null && ai && p1Turn) return false;
 
@@ -249,8 +251,6 @@ public class Game {
         else
             // Trash
             return new GameAction(GameAction.Kind.DRAW, -1);
-
-        // TODO : Draw and replace hidden ?
     }
 
     public Integer[] getScores() {
