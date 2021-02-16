@@ -97,7 +97,13 @@ public class CardPanel extends JPanel {
 		
 		// Selected card
 		if(golf.gamePanel.selectedVisible) {
-			SelectedCard sc = new SelectedCard(golf.gamePanel, golf.gamePanel.selectedCard.x, golf.gamePanel.selectedCard.y);
+			SelectedCard sc;
+			if(golf.gamePanel.selectedType == 'D')
+				sc = new SelectedCard(golf.gamePanel, golf.gamePanel.getWidth()/2 - 
+						golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/100);
+			else
+				sc = new SelectedCard(golf.gamePanel, golf.gamePanel.getWidth()/2 - 
+						golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(sc);
 		}
 
@@ -149,6 +155,7 @@ public class CardPanel extends JPanel {
 							golf.drawTrashTurn = 1;
 							golf.gamePanel.selectedCard.x = getX();
 							golf.gamePanel.selectedCard.y = getY();
+							golf.gamePanel.selectedType = 'D';
 							golf.gamePanel.selectedVisible = true;
 							redrawCards(golf, game);
 						}
@@ -177,6 +184,7 @@ public class CardPanel extends JPanel {
 							golf.drawTrashTurn = 2;
 							golf.gamePanel.selectedCard.x = getX();
 							golf.gamePanel.selectedCard.y = getY();
+							golf.gamePanel.selectedType = 'T';
 							golf.gamePanel.selectedVisible = true;
 							redrawCards(golf, game);
 						}

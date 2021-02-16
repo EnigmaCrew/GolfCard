@@ -14,6 +14,7 @@ public class GamePanel extends JPanel {
 	public WinPanel winPanel;
 	public SelectedCard selectedCard;
 	public boolean selectedVisible;
+	public char selectedType; // Deck (D) or Trash (T)
 	
 	public Golf golf;
 	
@@ -32,6 +33,7 @@ public class GamePanel extends JPanel {
 		winPanel = new WinPanel(golf);
 		selectedCard = new CardPanel.SelectedCard(this, 0, 0);
 		selectedVisible = false;
+		selectedType = ' ';
 		
 		add(selectedCard);
 		add(winPanel);
