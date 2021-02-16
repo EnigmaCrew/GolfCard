@@ -146,7 +146,7 @@ public class CardPanel extends JPanel {
 				if(card == null) {
 					if(golf.drawTrashTurn == 1) {
 						// Throw the picked card
-						game.step(new GameAction(Kind.DRAW, -1));
+						game.step(new GameAction(Kind.DRAW, -1), golf.ai);
 						golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 						// Reset the action memory
 						golf.drawTrashTurn = 3;
@@ -170,14 +170,14 @@ public class CardPanel extends JPanel {
 					else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
 						if(golf.drawTrashTurn == 3)
 							//Turn a card
-							game.step(new GameAction(Kind.TURN, index));
+							game.step(new GameAction(Kind.TURN, index), golf.ai);
 						else {
 							if(golf.drawTrashTurn == 2)
 								// Switch the card from the trash
-								game.step(new GameAction(Kind.TRASH, index));
+								game.step(new GameAction(Kind.TRASH, index), golf.ai);
 							else
 								// Switch the card from the deck
-								game.step(new GameAction(Kind.DRAW, index));
+								game.step(new GameAction(Kind.DRAW, index), golf.ai);
 						}
 						golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 						// Reset the action memory
@@ -204,7 +204,7 @@ public class CardPanel extends JPanel {
 						}
 						else {
 							// Throw the picked card
-							game.step(new GameAction(Kind.DRAW, -1));
+							game.step(new GameAction(Kind.DRAW, -1), golf.ai);
 							golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 							// Reset the action memory
 							golf.drawTrashTurn = 3;
@@ -216,10 +216,10 @@ public class CardPanel extends JPanel {
 						if(golf.drawTrashTurn != 3) {
 							if(golf.drawTrashTurn == 2)
 								// Switch the card from the trash
-								game.step(new GameAction(Kind.TRASH, index));
+								game.step(new GameAction(Kind.TRASH, index), golf.ai);
 							else
 								// Switch the card from the deck
-								game.step(new GameAction(Kind.DRAW, index));
+								game.step(new GameAction(Kind.DRAW, index), golf.ai);
 							golf.gamePanel.setTurn(game.p1Turn ? 1 : 2);
 							// Reset the action memory
 							golf.drawTrashTurn = 3;

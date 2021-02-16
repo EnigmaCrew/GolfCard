@@ -62,6 +62,7 @@ public class MenuPanel extends JPanel {
 					choiceButton1.setText("6 cards");
 					choiceButton2.setText("9 cards");
 					backExitButton.setText("Back");
+					golf.ai = false;
 				}
 				else {
 					choiceButton1.setText("Two Players");
@@ -96,6 +97,7 @@ public class MenuPanel extends JPanel {
 					choiceButton1.setText("6 cards");
 					choiceButton2.setText("9 cards");
 					backExitButton.setText("Back");
+					golf.ai = true;
 				}
 				else {
 					choiceButton1.setText("Two Players");

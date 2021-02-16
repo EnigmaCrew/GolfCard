@@ -33,6 +33,7 @@ public class Golf extends JFrame {
 	
 	private Golf golf;
 	public int sixOrNine;
+	public boolean ai;
 	public Game game;
 	
 	public int drawTrashTurn;
@@ -66,6 +67,7 @@ public class Golf extends JFrame {
 
 		golf = this;
 		sixOrNine = 9;
+		ai = false;
 		
 		drawTrashTurn = 3; // Turn
 		

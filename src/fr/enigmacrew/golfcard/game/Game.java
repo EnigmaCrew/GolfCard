@@ -30,7 +30,7 @@ public class Game {
         reset();
     }
 
-    public boolean step(GameAction action) {
+    public boolean step(GameAction action, boolean ai) {
         /*
          * Play a game step (turn).
          * Return whether the game is ended.
