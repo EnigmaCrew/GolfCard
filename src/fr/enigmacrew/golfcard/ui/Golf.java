@@ -239,6 +239,16 @@ public class Golf extends JFrame {
 		menuPanel.backExitButton.setSize(getWidth()/6, getHeight()/6);
 		menuPanel.backExitButton.setFont(Utils.getUpdatedFont(getWidth()));
 		
+		//**********************
+		// Config components
+		
+		reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
+		reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
+		
+		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
+		volumeSlider.setSize(getWidth()/10, getHeight()/50);
+		
+		
 		if(!onlyMenu) {
 			
 			//**********************
@@ -286,15 +296,6 @@ public class Golf extends JFrame {
 			gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
 					gamePanel.winPanel.getHeight()/10);
 			gamePanel.winPanel.scoreLabel.setFont(Utils.getUpdatedFont(getWidth()));
-			
-			//**********************
-			// Config components
-			
-			reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
-			reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
-			
-			volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
-			volumeSlider.setSize(getWidth()/10, getHeight()/50);
 			
 			//**********************
 			// Cards
