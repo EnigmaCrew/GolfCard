@@ -245,8 +245,8 @@ public class Game {
             return new GameAction(GameAction.Kind.TURN, hiddenCards.get(0));
 
         // Draw and replace visible card when high values on the deck
-        // TODO : Be careful with p1's cards
-        if (deck.value < valmax)
+        // Be careful with p1's cards
+        if (deck.value < valmax && !p1Ids.containsKey(p2.get(amax).id))
             return new GameAction(GameAction.Kind.DRAW, amax);
         else
             // Trash
