@@ -179,7 +179,7 @@ public class Game {
         }
 
         // Start phase case
-        if (visibleCards.size() == 0)
+        if (visibleCards.size() < nCards / 3)
             // Take the first one
             return new GameAction(GameAction.Kind.TURN, hiddenCards.get(0));
 
