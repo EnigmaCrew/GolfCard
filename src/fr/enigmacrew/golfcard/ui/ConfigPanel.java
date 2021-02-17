@@ -59,6 +59,7 @@ public class ConfigPanel extends JPanel {
 				// Restart a new game
 				configPanel.setVisible(false);
 				golf.reducedWinFrameButton.setVisible(false);
+				golf.gamePanel.winPanel.setVisible(false);
 				golf.configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonDown, 
 						golf.configButton.getWidth(), golf.configButton.getHeight()));
 				if(golf.game != null) {
