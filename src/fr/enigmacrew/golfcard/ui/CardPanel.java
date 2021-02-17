@@ -129,6 +129,10 @@ public class CardPanel extends JPanel {
 					golf.gamePanel.getWidth()/24, golf.gamePanel.getHeight()/4);
 			golf.gamePanel.add(c);
 		}
+		
+		// Last turn
+		if(game.phase == Phase.LASTTURN)
+			golf.gamePanel.lastTurnLabel.setVisible(true);
 	}
 	
 	//**************************************************************************
@@ -154,6 +158,10 @@ public class CardPanel extends JPanel {
 						golf.drawTrashTurn = 3;
 						golf.gamePanel.selectedVisible = false;
 						redrawCards(golf, game);
+						if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+							golf.gamePanel.scoresLabel.setVisible(true);
+							golf.gamePanel.setScores();
+						}
 					}
 				}
 				else {
@@ -167,6 +175,10 @@ public class CardPanel extends JPanel {
 							golf.gamePanel.selectedType = 'D';
 							golf.gamePanel.selectedVisible = true;
 							redrawCards(golf, game);
+							if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+								golf.gamePanel.scoresLabel.setVisible(true);
+								golf.gamePanel.setScores();
+							}
 						}
 					}
 					else if((!card.visible) && game.p1Turn == p1 && index >= 0) {
@@ -195,6 +207,10 @@ public class CardPanel extends JPanel {
 						golf.drawTrashTurn = 3;
 						golf.gamePanel.selectedVisible = false;
 						redrawCards(golf, game);
+						if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+							golf.gamePanel.scoresLabel.setVisible(true);
+							golf.gamePanel.setScores();
+						}
 					}
 					else if(index == -1) {
 						if(golf.drawTrashTurn == 3) {
@@ -224,6 +240,10 @@ public class CardPanel extends JPanel {
 							golf.gamePanel.selectedVisible = false;
 							redrawCards(golf, game);
 						}
+						if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+							golf.gamePanel.scoresLabel.setVisible(true);
+							golf.gamePanel.setScores();
+						}
 					}
 					else if(card.visible && game.p1Turn == p1 && index >= 0) {
 						if(golf.drawTrashTurn != 3) {
@@ -244,6 +264,10 @@ public class CardPanel extends JPanel {
 							golf.drawTrashTurn = 3;
 							golf.gamePanel.selectedVisible = false;
 							redrawCards(golf, game);
+							if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+								golf.gamePanel.scoresLabel.setVisible(true);
+								golf.gamePanel.setScores();
+							}
 						}
 					}
 				}
@@ -256,7 +280,13 @@ public class CardPanel extends JPanel {
 						gc.visible = true;
 					// Disable the borders around the player labels
 					golf.gamePanel.setTurn(0);
+					// Hide the last turn label
+					golf.gamePanel.lastTurnLabel.setVisible(false);
 					// Print the winner pannel (winner + scores)
+					if(golf.trueConfigPanel.scoreCheckBox.isSelected()) {
+						golf.gamePanel.scoresLabel.setVisible(true);
+						golf.gamePanel.setScores();
+					}
 					golf.gamePanel.winPanel.game = game;
 					golf.gamePanel.winPanel.setValues();
 					golf.gamePanel.winPanel.setVisible(true);

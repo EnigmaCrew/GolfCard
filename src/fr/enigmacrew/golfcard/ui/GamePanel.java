@@ -23,6 +23,8 @@ public class GamePanel extends JPanel {
 	public char selectedType; // Deck (D) or Trash (T)
 	public JLabel player1Label;
 	public JLabel player2Label;
+	public JLabel scoresLabel;
+	public JLabel lastTurnLabel;
 	
 	public Golf golf;
 	
@@ -50,12 +52,26 @@ public class GamePanel extends JPanel {
 		selectedType = ' ';
 		
 		player1Label = new JLabel("Player 1");
+		player1Label.setForeground(Color.BLACK);
 		player1Label.setHorizontalAlignment(JLabel.CENTER);
 		player1Label.setVerticalAlignment(JLabel.CENTER);
 		
 		player2Label = new JLabel("Player 2");
+		player2Label.setForeground(Color.BLACK);
 		player2Label.setHorizontalAlignment(JLabel.CENTER);
 		player2Label.setVerticalAlignment(JLabel.CENTER);
+		
+		scoresLabel = new JLabel("0 - 0");
+		scoresLabel.setForeground(Color.BLACK);
+		scoresLabel.setVisible(false);
+		scoresLabel.setHorizontalAlignment(JLabel.CENTER);
+		scoresLabel.setVerticalAlignment(JLabel.CENTER);
+		
+		lastTurnLabel = new JLabel("Last Turn");
+		lastTurnLabel.setForeground(Color.RED);
+		lastTurnLabel.setVisible(false);
+		lastTurnLabel.setHorizontalAlignment(JLabel.CENTER);
+		lastTurnLabel.setVerticalAlignment(JLabel.CENTER);
 		
 		setTurn(1); // Default
 		
@@ -66,6 +82,8 @@ public class GamePanel extends JPanel {
 		add(player2Label);
 		add(selectedCard);
 		add(winPanel);
+		add(scoresLabel);
+		add(lastTurnLabel);
 	}
 	
 	@Override
@@ -96,6 +114,11 @@ public class GamePanel extends JPanel {
 			player2Label.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
 		}
 		
+	}
+	
+	public void setScores() {
+		Integer[] scores = golf.game.getScores();
+		scoresLabel.setText(scores[0] + " : " + scores[1]);
 	}
 	
 }

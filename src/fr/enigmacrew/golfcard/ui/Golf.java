@@ -2,10 +2,13 @@ package fr.enigmacrew.golfcard.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Timer;
@@ -43,7 +46,9 @@ public class Golf extends JFrame {
 	
 	public MenuPanel menuPanel;
 	public GamePanel gamePanel;
+	public JButton configButton;
 	private JPanel configPanel = new JPanel();
+	public ConfigPanel trueConfigPanel;
 	public final Color configColor = new Color(38, 127, 0);
 	
 	private JSlider volumeSlider = new JSlider();
@@ -113,6 +118,8 @@ public class Golf extends JFrame {
 		configPanel.setLocation(0, 0);
 		configPanel.setBackground(configColor);
 		
+		trueConfigPanel = new ConfigPanel(golf);
+		
 		//**********************
 		// Config components
 		
@@ -144,6 +151,23 @@ public class Golf extends JFrame {
 			}
 		});
 		
+		configButton = new JButton();
+		configButton.setBackground(Color.GRAY);
+		configButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Reduce the frame and put the shortcut in the config panel
+				if(trueConfigPanel.isVisible()) {
+					configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonDown, configButton.getWidth(), configButton.getHeight()));
+					trueConfigPanel.setVisible(false);
+				}
+				else {
+					configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonUp, configButton.getWidth(), configButton.getHeight()));
+					trueConfigPanel.setVisible(true);
+				}
+			}
+		});
+		
 		golf.updateComponents(true);
 		gamePanel.selectedCard.setVisible(false);
 		
@@ -152,7 +176,9 @@ public class Golf extends JFrame {
 		
 		configPanel.add(reducedWinFrameButton);
 		configPanel.add(volumeSlider);
-		
+		configPanel.add(configButton);
+
+		add(trueConfigPanel);
 		add(configPanel);
 		add(gamePanel);
 		add(menuPanel);
@@ -190,6 +216,12 @@ public class Golf extends JFrame {
 				}
 			}
 		}, 1);
+		
+		//**************************************************************************
+		// Key listener
+		
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new KeyListener());
 	}
 	
 	//**************************************************************************
@@ -215,6 +247,9 @@ public class Golf extends JFrame {
 		
 		// Config
 		configPanel.setSize(getWidth(), getHeight()/30);
+		
+		trueConfigPanel.setLocation(getWidth() - getWidth()/6, getHeight()/30);
+		trueConfigPanel.setSize(getWidth()/6, getHeight()/7);
 		
 		// Win
 		gamePanel.winPanel.setLocation(getWidth()/2 - (getWidth() - getWidth()/3)/4, getHeight()/2 - 
@@ -244,11 +279,28 @@ public class Golf extends JFrame {
 		//**********************
 		// Config components
 		
+		// Buttons
+		
+		trueConfigPanel.replayButton.setLocation(trueConfigPanel.getWidth()/40, trueConfigPanel.getHeight() - trueConfigPanel.getHeight()/3);
+		trueConfigPanel.replayButton.setSize((trueConfigPanel.getWidth()/6)*5, trueConfigPanel.getHeight()/4);
+		trueConfigPanel.replayButton.setFont(Utils.getUpdatedFont(getWidth() - getWidth()/5));
+		
+		trueConfigPanel.scoreCheckBox.setLocation(trueConfigPanel.getWidth()/40, trueConfigPanel.getHeight()/4);
+		trueConfigPanel.scoreCheckBox.setSize((trueConfigPanel.getWidth()/6)*5, trueConfigPanel.getHeight()/4);
+		trueConfigPanel.scoreCheckBox.setFont(Utils.getUpdatedFont(getWidth() - getWidth()/5));
+		
 		reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
 		reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
 		
 		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
 		volumeSlider.setSize(getWidth()/10, getHeight()/50);
+
+		configButton.setLocation(getWidth() - getWidth()/6, 0);
+		configButton.setSize(getWidth()/30, getHeight()/30);
+		if(trueConfigPanel.isVisible())
+			configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonUp, configButton.getWidth(), configButton.getHeight()));
+		else
+			configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonDown, configButton.getWidth(), configButton.getHeight()));
 		
 		
 		if(!onlyMenu) {
@@ -265,6 +317,22 @@ public class Golf extends JFrame {
 					gamePanel.getHeight()/6);
 			gamePanel.player2Label.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/16);
 			gamePanel.player2Label.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+			
+			if(trueConfigPanel.scoreCheckBox.isSelected()) {
+				gamePanel.scoresLabel.setVisible(true);
+				gamePanel.setScores();
+				gamePanel.scoresLabel.setLocation(gamePanel.getWidth()/2 - gamePanel.getWidth()/16, gamePanel.getHeight() - 
+						gamePanel.getHeight()/3);
+				gamePanel.scoresLabel.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/16);
+				gamePanel.scoresLabel.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
+			}
+			else
+				gamePanel.scoresLabel.setVisible(false);
+			
+			gamePanel.lastTurnLabel.setLocation(gamePanel.getWidth()/2 - gamePanel.getWidth()/16, gamePanel.getHeight() - 
+					gamePanel.getHeight()/6);
+			gamePanel.lastTurnLabel.setSize(gamePanel.getWidth()/8, gamePanel.getHeight()/16);
+			gamePanel.lastTurnLabel.setFont(Utils.getUpdatedFont(getWidth() + getWidth()/2));
 			
 			//**********************
 			// Win Panel components
@@ -292,7 +360,7 @@ public class Golf extends JFrame {
 			gamePanel.winPanel.winnerLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/15);
 			gamePanel.winPanel.winnerLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
 					gamePanel.winPanel.getHeight()/10);
-			gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth()*2));
+			gamePanel.winPanel.winnerLabel.setFont(Utils.getUpdatedFont(getWidth() + (getWidth()/5)*4));
 			
 			gamePanel.winPanel.scoreLabel.setLocation(gamePanel.winPanel.getWidth()/10, gamePanel.winPanel.getHeight()/5);
 			gamePanel.winPanel.scoreLabel.setSize(gamePanel.winPanel.getWidth() - gamePanel.winPanel.getWidth()/8, 
@@ -304,5 +372,35 @@ public class Golf extends JFrame {
 			
 			CardPanel.redrawCards(golf, game);
 		}
+	}
+	
+	//**************************************************************************
+	// Classes
+	
+	private class KeyListener implements KeyEventDispatcher {
+		
+		/*
+		 * Listener for the escape key
+		 *  - Print the config panel if it is hidden
+		 *  - Hide the config panel if it is printed
+		 */
+		
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent event) {
+        	
+        	if(golf.isVisible()) {
+        		if(event.getID() == KeyEvent.KEY_PRESSED) {
+        			int keyCode = event.getKeyCode();
+        			if(keyCode == KeyEvent.VK_ESCAPE) {
+        				golf.trueConfigPanel.setVisible(!golf.trueConfigPanel.isVisible());
+        				if(trueConfigPanel.isVisible())
+        					configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonUp, configButton.getWidth(), configButton.getHeight()));
+        				else
+        					configButton.setIcon(Utils.resizeImage(Const.IMAGE_HideButtonDown, configButton.getWidth(), configButton.getHeight()));
+        			}
+        		}
+        	}
+        	return false;
+        }
 	}
 }

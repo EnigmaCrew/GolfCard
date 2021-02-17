@@ -32,7 +32,7 @@ public class WinPanel extends JPanel {
 	public WinPanel(Golf golf) {
 		
 		/*
-		 * The win panel (a popup that can be close and reduce)
+		 * The win panel (a popup that can be closed and reduced)
 		 * Print the scores and the winner
 		 * Ask to play again and play again with the same configuration
 		 */
@@ -139,7 +139,10 @@ public class WinPanel extends JPanel {
 		
 		if(game != null) {
 			Integer[] scores = game.getScores();
-			winnerLabel.setText(scores[0] > scores[1] ? "Player 2 Wins !" : "Player 1 Wins !");
+			if(scores[0] == scores[1])
+				winnerLabel.setText("Draw !");
+			else
+				winnerLabel.setText(scores[0] > scores[1] ? "Player 2 Wins !" : "Player 1 Wins !");
 			scoreLabel.setText("Player 1 : " + scores[0] + " - " + scores[1] + " : Player 2");
 		}
 	}
