@@ -11,11 +11,13 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -51,6 +53,7 @@ public class Golf extends JFrame {
 	public ConfigPanel trueConfigPanel;
 	public final Color configColor = new Color(38, 127, 0);
 	
+	private JLabel timeLabel;
 	private JSlider volumeSlider = new JSlider();
 	public JButton reducedWinFrameButton = new JButton();
 	
@@ -135,6 +138,21 @@ public class Golf extends JFrame {
 			}
 		});
 		
+		timeLabel = new JLabel();
+		timeLabel.setBackground(configColor);
+		new Timer().schedule(new TimerTask() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void run() {
+				// Actualize the time every second
+				Date date = new Date();
+				timeLabel.setText((date.getHours() < 10 ? "0" + date.getHours() : date.getHours() + "" + ":") + 
+						(date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() + ""));
+			}
+		}, 0, 1000);
+		timeLabel.setHorizontalAlignment(JLabel.CENTER);
+		timeLabel.setVerticalAlignment(JLabel.CENTER);
+		
 		volumeSlider.setOpaque(false);
 		volumeSlider.setMinimum(0);
 		volumeSlider.setMaximum(75);
@@ -175,6 +193,7 @@ public class Golf extends JFrame {
 		// Adding components
 		
 		configPanel.add(reducedWinFrameButton);
+		configPanel.add(timeLabel);
 		configPanel.add(volumeSlider);
 		configPanel.add(configButton);
 
@@ -291,6 +310,10 @@ public class Golf extends JFrame {
 		
 		reducedWinFrameButton.setSize(getWidth()/3, getHeight()/30);
 		reducedWinFrameButton.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/3));
+		
+		timeLabel.setLocation(getWidth()/2 - getWidth()/20, getHeight()/350);
+		timeLabel.setSize(getWidth()/10, getHeight()/30);
+		timeLabel.setFont(Utils.getUpdatedFont(getWidth()-getWidth()/5));
 		
 		volumeSlider.setLocation(getWidth() - getWidth()/8, getHeight()/110);
 		volumeSlider.setSize(getWidth()/10, getHeight()/50);
