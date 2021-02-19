@@ -146,8 +146,8 @@ public class Golf extends JFrame {
 			public void run() {
 				// Actualize the time every second
 				Date date = new Date();
-				timeLabel.setText((date.getHours() < 10 ? "0" + date.getHours() : date.getHours() + "" + ":") + 
-						(date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() + ""));
+				timeLabel.setText(((date.getHours() < 10 ? "0" + date.getHours() : (date.getHours() + "")) + ":") + 
+						(date.getMinutes() < 10 ? "0" + date.getMinutes() : (date.getMinutes() + "")));
 			}
 		}, 0, 1000);
 		timeLabel.setHorizontalAlignment(JLabel.CENTER);
